@@ -1,18 +1,19 @@
 # Webbutveckling Grupp-projekt
+## Skapad av: Tim, Linus & Kalle
 
 # INSTALL: 
 - npm install -g expo-cli
-- npx create-react-app _____
-- npx expo init _____
-- npx expo install react-native-web react-dom @expo/metro-runtime
 - https://developer.android.com/studio (Android IDE)
 - https://docs.expo.dev/workflow/android-studio-emulator/ (Setup Android Studio Emulator)
 
-# RUN WEBB-APP: 
+# WEBB-APP: 
+- npx create-react-app webb-app
 - cd webb-app
 - npm start
 
-# RUN MOBILE-APP:
+# MOBILE-APP:
+- npx expo init mobil-app
+- npx expo install react-native-web react-dom @expo/metro-runtime
 - cd mobil-app
 - npm start
 
