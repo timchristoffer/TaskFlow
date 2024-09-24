@@ -11,7 +11,7 @@ const DashboardComponent = () => {
     useEffect(() => {
         const fetchDashboards = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/dashboards');
+                const response = await axios.get('https://localhost:7287/dashboards');
                 setDashboards(response.data); // Sätt dashboards i state
             } catch (error) {
                 console.error('Error fetching dashboards:', error);
@@ -26,7 +26,7 @@ const DashboardComponent = () => {
         e.preventDefault();
         console.log("Creating dashboard with name:", name); // Debug-meddelande
         try {
-            const response = await axios.post('http://localhost:5000/dashboards', { name });
+            const response = await axios.post('https://localhost:7287/dashboards', { name });
             console.log("Response:", response); // Debug-meddelande
             setDashboards([...dashboards, response.data]); // Lägg till den nya dashboarden i listan
             setName(''); // Rensa input-fältet

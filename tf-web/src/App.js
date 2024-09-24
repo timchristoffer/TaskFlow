@@ -10,7 +10,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/dashboard/:dashboardName" element={<DashboardDetail />} /> {/* Add this line */}
           {/* Här kan du lägga till fler routes senare */}
         </Routes>
