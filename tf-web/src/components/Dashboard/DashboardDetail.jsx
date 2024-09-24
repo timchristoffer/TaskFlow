@@ -7,25 +7,56 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 
 const DashboardDetail = () => {
     const { dashboardName } = useParams();
-    const [layout, setLayout] = useState(getInitialLayout());
+    const [layouts, setLayouts] = useState(getInitialLayouts());
     const [cols, setCols] = useState(getCols(window.innerWidth));
 
     function getCols(width) {
-        if (width < 480) return { lg: 2, md: 2, sm: 1, xs: 1, xxs: 1 };
-        if (width < 768) return { lg: 2, md: 2, sm: 1, xs: 1, xxs: 1 };
-        if (width < 1024) return { lg: 3, md: 2, sm: 1, xs: 1, xxs: 1 };
-        return { lg: 3, md: 2, sm: 1, xs: 1, xxs: 1 };
+        return {
+            lg: width >= 1024 ? 4 : 3,
+            md: width >= 768 ? 3 : 2,
+            sm: 1,
+            xs: 1,
+            xxs: 1,
+        };
     }
 
-    function getInitialLayout() {
-        return [
-            { i: 'widget1', x: 0, y: 0, w: 2, h: 4, minW: 1, maxW: 6, minH: 2, maxH: 6 },
-            { i: 'widget2', x: 2, y: 0, w: 2, h: 4, minW: 1, maxW: 6, minH: 2, maxH: 6 },
-            { i: 'widget3', x: 0, y: 2, w: 2, h: 4, minW: 1, maxW: 6, minH: 2, maxH: 6 },
-            { i: 'widget4', x: 2, y: 2, w: 2, h: 4, minW: 1, maxW: 6, minH: 2, maxH: 6 },
-            { i: 'widget5', x: 0, y: 4, w: 2, h: 4, minW: 1, maxW: 6, minH: 2, maxH: 6 },
-            { i: 'widget6', x: 2, y: 4, w: 2, h: 4, minW: 1, maxW: 6, minH: 2, maxH: 6 },
-        ];
+    function getInitialLayouts() {
+        const savedLayouts = JSON.parse(localStorage.getItem('dashboard-layouts'));
+        return savedLayouts || {
+            lg: [
+                { i: 'widget1', x: 0, y: 0, w: 1, h: 2 },
+                { i: 'widget2', x: 1, y: 0, w: 1, h: 2 },
+                { i: 'widget3', x: 2, y: 0, w: 1, h: 2 },
+                { i: 'widget4', x: 3, y: 0, w: 1, h: 2 },
+                { i: 'widget5', x: 0, y: 1, w: 1, h: 2 },
+                { i: 'widget6', x: 1, y: 1, w: 1, h: 2 },
+            ],
+            md: [],
+            sm: [
+                { i: 'widget1', x: 0, y: 0, w: 1, h: 3 },
+                { i: 'widget2', x: 0, y: 1, w: 1, h: 3 },
+                { i: 'widget3', x: 0, y: 2, w: 1, h: 3 },
+                { i: 'widget4', x: 0, y: 3, w: 1, h: 3 },
+                { i: 'widget5', x: 0, y: 4, w: 1, h: 3 },
+                { i: 'widget6', x: 0, y: 5, w: 1, h: 3 },
+            ],
+            xs: [
+                { i: 'widget1', x: 0, y: 0, w: 1, h: 4 },
+                { i: 'widget2', x: 0, y: 1, w: 1, h: 4 },
+                { i: 'widget3', x: 0, y: 2, w: 1, h: 4 },
+                { i: 'widget4', x: 0, y: 3, w: 1, h: 4 },
+                { i: 'widget5', x: 0, y: 4, w: 1, h: 4 },
+                { i: 'widget6', x: 0, y: 5, w: 1, h: 4 },
+            ],
+            xxs: [
+                { i: 'widget1', x: 0, y: 0, w: 1, h: 5 },
+                { i: 'widget2', x: 0, y: 1, w: 1, h: 5 },
+                { i: 'widget3', x: 0, y: 2, w: 1, h: 5 },
+                { i: 'widget4', x: 0, y: 3, w: 1, h: 5 },
+                { i: 'widget5', x: 0, y: 4, w: 1, h: 5 },
+                { i: 'widget6', x: 0, y: 5, w: 1, h: 5 },
+            ],
+        };
     }
 
     useEffect(() => {
@@ -40,31 +71,37 @@ const DashboardDetail = () => {
         };
     }, []);
 
-    const handleLayoutChange = (newLayout) => {
-        setLayout(newLayout);
+    const handleLayoutChange = (newLayout, allLayouts) => {
+        setLayouts(allLayouts);
+        localStorage.setItem('dashboard-layouts', JSON.stringify(allLayouts));
+    };
+
+    const handleBreakpointChange = (newBreakpoint) => {
+        const newCols = getCols(window.innerWidth);
+        setCols(newCols);
     };
 
     return (
         <div className='dashboard'>
             <div className='dashboard-container'>
-                <h2 style={{ color: '#fff', textAlign: 'center' }}>Dashboard Details</h2>
-                <p style={{ color: '#fff', textAlign: 'center' }}>Dashboard Name: {dashboardName}</p>
+                <h2 className="dashboard-title">{dashboardName}</h2>
                 <ResponsiveGridLayout
                     className="layout"
-                    layouts={{ lg: layout, md: layout, sm: layout, xs: layout, xxs: layout }}
+                    layouts={layouts}
                     cols={cols}
                     rowHeight={30}
                     margin={[20, 20]}
                     draggableHandle=".grid-item__title"
                     isResizable={true}
                     onLayoutChange={handleLayoutChange}
+                    onBreakpointChange={handleBreakpointChange}
                     breakpoints={{ lg: 1024, md: 768, sm: 480, xs: 360, xxs: 0 }}
                     resizeHandles={['se']}
-                    measureBeforeMount={false}
                 >
-                    {layout.map((item) => (
+                    {layouts.lg.map((item) => (
                         <div key={item.i} className="grid-item">
                             <div className="grid-item__title">Widget {item.i.replace('widget', '')}</div>
+                            <div className="grid-item__content">Content for {item.i}</div>
                         </div>
                     ))}
                 </ResponsiveGridLayout>
