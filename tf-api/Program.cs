@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using tf_api.DBContexts; // För att använda DBContexts
-using tf_api.Endpoints; // För att använda Endpoints
+using tf_api.Endpoints; // För att använda Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +8,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TaskFlowDBContext>();
+
+// Lägg till CORS-konfiguration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder => builder.AllowAnyOrigin()
+                         .AllowAnyMethod() // Tillåt alla metoder
+                         .AllowAnyHeader()); // Tillåt alla headers
+});
 
 var app = builder.Build();
 
@@ -19,6 +28,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Aktivera CORS
+app.UseCors("AllowAllOrigins");
 
 // Här kan du definiera dina API-endpoints
 app.MapDashboardEndpoints();
