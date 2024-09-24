@@ -4556,23 +4556,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\linus\\.nuget\\packages\\": {},
+    "C:\\Users\\timda\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\linus\\Desktop\\TUC\\Webutveckling\\Gruppinlämning\\tf-api\\tf-api.csproj",
+      "projectUniqueName": "C:\\Users\\timda\\Desktop\\Projekt\\TaskFlow\\tf-api\\tf-api.csproj",
       "projectName": "tf-api",
-      "projectPath": "C:\\Users\\linus\\Desktop\\TUC\\Webutveckling\\Gruppinlämning\\tf-api\\tf-api.csproj",
-      "packagesPath": "C:\\Users\\linus\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\linus\\Desktop\\TUC\\Webutveckling\\Gruppinlämning\\tf-api\\obj\\",
+      "projectPath": "C:\\Users\\timda\\Desktop\\Projekt\\TaskFlow\\tf-api\\tf-api.csproj",
+      "packagesPath": "C:\\Users\\timda\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\timda\\Desktop\\Projekt\\TaskFlow\\tf-api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\linus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\timda\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4653,7 +4653,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
