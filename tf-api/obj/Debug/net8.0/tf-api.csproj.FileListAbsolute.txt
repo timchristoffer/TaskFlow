@@ -135,3 +135,4 @@ C:\Users\linus\Desktop\TUC\Webutveckling\Gruppinlämning\tf-api\obj\Debug\net8.0
 C:\Users\linus\Desktop\TUC\Webutveckling\Gruppinlämning\tf-api\obj\Debug\net8.0\tf-api.pdb
 C:\Users\linus\Desktop\TUC\Webutveckling\Gruppinlämning\tf-api\obj\Debug\net8.0\tf-api.genruntimeconfig.cache
 C:\Users\linus\Desktop\TUC\Webutveckling\Gruppinlämning\tf-api\obj\Debug\net8.0\ref\tf-api.dll
+C:\Users\linus\Desktop\TUC\Webutveckling\Gruppinlämning\tf-api\obj\Debug\net8.0\tf-api.sourcelink.json

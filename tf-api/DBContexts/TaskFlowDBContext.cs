@@ -5,21 +5,20 @@ namespace tf_api.DBContexts
 {
     public class TaskFlowDBContext : DbContext
     {
-        public TaskFlowDBContext(DbContextOptions options) : base(options)
-        {
+        public DbSet<Dashboard> Dashboards { get; set; }
+        public DbSet<TodoList> TodoLists { get; set; }
+        public DbSet<Todo> Todos { get; set; }
+        public DbSet<BudgetList> BudgetLists { get; set; }
+        public DbSet<BudgetItem> BudgetItems { get; set; }
 
-        }
-        DbSet<Dashboard> Dashboards { get; set; }
-        DbSet<TodoList> TodoLists { get; set; }
-        DbSet<Todo> Todos { get; set; }
-        DbSet<BudgetList> BudgetLists { get; set; }
-        DbSet<BudgetItem> BudgetItems { get; set; }
+        //public TaskFlowDBContext(DbContextOptions<TaskFlowDBContext> options) : base(options)
+        //{
 
-
+        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=LAPTOP-ONS01784;Initial Catalog=AESkryptering;Trust Server Certificate=True;Integrated Security = True");
+            optionsBuilder.UseSqlServer("Data Source=localhost;Initial Catalog=TaskFlow;Trust Server Certificate=True;Integrated Security = True");
         }
     }
 }
