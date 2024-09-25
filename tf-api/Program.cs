@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using tf_api.DBContexts; // För att använda DBContexts
 using tf_api.Endpoints; // För att använda Endpoints;
 
@@ -8,6 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TaskFlowDBContext>();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new()
+    {
+        Title = "TaskFlow API",
+        Version = "v1",
+        Contact = new() { Name = "TaskKing", Email = "taskking@trams.org" }
+    });
+});
 
 // Lägg till CORS-konfiguration
 builder.Services.AddCors(options =>
@@ -24,7 +34,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.DocExpansion(DocExpansion.List);
+        options.DefaultModelsExpandDepth(-1);
+    });
 }
 
 app.UseHttpsRedirection();
@@ -34,5 +48,6 @@ app.UseCors("AllowAllOrigins");
 
 // Här kan du definiera dina API-endpoints
 app.MapDashboardEndpoints();
+app.MapTodoListEndpoints();
 
 app.Run();
