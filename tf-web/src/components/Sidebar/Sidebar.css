@@ -82,12 +82,12 @@
   .menu a {
     color: white;
     text-decoration: none;
-    padding: 10px 0;
+    padding: 10px;
     width: 100%;
     text-align: center;
     transition: background-color 0.3s;
     border-radius: 10px;
-    padding: 10px;
+    margin: 5px;
     display: flex;
     align-items: center; /* Center the icon and text vertically */
   }

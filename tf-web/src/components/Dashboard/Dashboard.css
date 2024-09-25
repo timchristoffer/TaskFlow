@@ -17,7 +17,6 @@ body {
     transition: margin-left 0.3s ease;
     padding: 20px;
     box-sizing: border-box; /* Inkludera padding i bredden */
-    margin-top: 50px;
 }
 
 .dashboard-content.sidebar-open {
@@ -30,9 +29,9 @@ body {
 
 .dashboard-container {
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     padding: 20px;
     overflow: hidden; /* Lägg till detta för att förhindra att innehållet skjuts utanför */
+    color: var(--text);
 }
 
 .dashboard-title {
@@ -56,6 +55,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .grid-item__title {
