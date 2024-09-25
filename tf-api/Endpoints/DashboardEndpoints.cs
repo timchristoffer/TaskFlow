@@ -14,7 +14,11 @@ namespace tf_api.Endpoints
             {
                 return await db.Dashboards.ToListAsync();
             })
-            .WithName("GetAllDashboards");
+            .WithName("GetAllDashboards")
+            .WithSummary("Get all dashboards")
+            .WithDescription("Retrieve a list of all dashboards")
+            .WithTags("Dashboards")
+            .Produces<List<Dashboard>>(StatusCodes.Status200OK);
 
             app.MapGet("/dashboards/{id}", async (int id, TaskFlowDBContext db) =>
             {
@@ -23,7 +27,12 @@ namespace tf_api.Endpoints
                         ? Results.Ok(dashboard)
                         : Results.NotFound();
             })
-            .WithName("GetDashboardById");
+            .WithName("GetDashboardById")
+            .WithSummary("Get dashboard by ID")
+            .WithDescription("Retrieve a specific dashboard by its ID")
+            .WithTags("Dashboards")
+            .Produces<Dashboard>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound);
 
             app.MapPost("/dashboards", async (Dashboard dashboard, TaskFlowDBContext db) =>
             {
@@ -31,7 +40,11 @@ namespace tf_api.Endpoints
                 await db.SaveChangesAsync();
                 return Results.Created($"/dashboards/{dashboard.Id}", dashboard);
             })
-            .WithName("CreateDashboard");
+            .WithName("CreateDashboard")
+            .WithSummary("Create a new dashboard")
+            .WithDescription("Create a new dashboard and return the created dashboard")
+            .WithTags("Dashboards")
+            .Produces<Dashboard>(StatusCodes.Status201Created);
 
             app.MapPut("/dashboards/{id}", async (int id, Dashboard updatedDashboard, TaskFlowDBContext db) =>
             {
@@ -42,7 +55,12 @@ namespace tf_api.Endpoints
                 await db.SaveChangesAsync();
                 return Results.NoContent();
             })
-            .WithName("UpdateDashboard");
+            .WithName("UpdateDashboard")
+            .WithSummary("Update a dashboard")
+            .WithDescription("Update the details of a specific dashboard")
+            .WithTags("Dashboards")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound);
 
             app.MapDelete("/dashboards/{id}", async (int id, TaskFlowDBContext db) =>
             {
@@ -53,7 +71,12 @@ namespace tf_api.Endpoints
                 await db.SaveChangesAsync();
                 return Results.NoContent();
             })
-            .WithName("DeleteDashboard");
+            .WithName("DeleteDashboard")
+            .WithSummary("Delete a dashboard")
+            .WithDescription("Delete a specific dashboard by its ID")
+            .WithTags("Dashboards")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound);
         }
     }
 }

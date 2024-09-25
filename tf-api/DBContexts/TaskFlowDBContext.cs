@@ -14,6 +14,9 @@ namespace tf_api.DBContexts
         public DbSet<Todo> Todos { get; set; }
         public DbSet<BudgetList> BudgetLists { get; set; }
         public DbSet<BudgetItem> BudgetItems { get; set; }
+        public DbSet<Notepad> Notepads { get; set; }
+        public DbSet<Note> Notes { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
