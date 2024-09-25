@@ -1,0 +1,118 @@
+[
+  {
+    "ContainingType": "tf_api.Endpoints.DashboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDashboardEndpoints\u003Eb__0_0",
+    "RelativePath": "dashboards",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[tf_api.Models.Dashboard, tf-api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "GetAllDashboards"
+  },
+  {
+    "ContainingType": "tf_api.Endpoints.DashboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDashboardEndpoints\u003Eb__0_2",
+    "RelativePath": "dashboards",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dashboard",
+        "Type": "tf_api.Models.Dashboard",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "CreateDashboard"
+  },
+  {
+    "ContainingType": "tf_api.Endpoints.DashboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDashboardEndpoints\u003Eb__0_1",
+    "RelativePath": "dashboards/{id}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "GetDashboardById"
+  },
+  {
+    "ContainingType": "tf_api.Endpoints.DashboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDashboardEndpoints\u003Eb__0_3",
+    "RelativePath": "dashboards/{id}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updatedDashboard",
+        "Type": "tf_api.Models.Dashboard",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "UpdateDashboard"
+  },
+  {
+    "ContainingType": "tf_api.Endpoints.DashboardEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapDashboardEndpoints\u003Eb__0_4",
+    "RelativePath": "dashboards/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "DeleteDashboard"
+  }
+]
