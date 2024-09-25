@@ -1,0 +1,110 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    background-color: var(--primary);
+    color: white;
+    transition: transform 0.3s ease;
+    transform: translateX(-100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  #nav-icon3 {
+    width: 30px;
+    height: 24px;
+    position: fixed; /* Changed to fixed to keep it visible */
+    top: 20px;
+    left: 20px; /* Adjusted to place the button inside the sidebar */
+    cursor: pointer;
+    z-index: 15; /* Ensure the button is above the sidebar */
+  }
+  
+  #nav-icon3 span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background: white;
+    border-radius: 9px;
+    opacity: 1;
+    left: 0;
+    transition: 0.25s ease-in-out;
+  }
+  
+  #nav-icon3 span:nth-child(1) {
+    top: 0px;
+  }
+  
+  #nav-icon3 span:nth-child(2), #nav-icon3 span:nth-child(3) {
+    top: 9px;
+  }
+  
+  #nav-icon3 span:nth-child(4) {
+    top: 18px;
+  }
+  
+  #nav-icon3.open span:nth-child(1) {
+    top: 9px;
+    width: 0%;
+    left: 50%;
+  }
+  
+  #nav-icon3.open span:nth-child(2) {
+    transform: rotate(45deg);
+  }
+  
+  #nav-icon3.open span:nth-child(3) {
+    transform: rotate(-45deg);
+  }
+  
+  #nav-icon3.open span:nth-child(4) {
+    top: 9px;
+    width: 0%;
+    left: 50%;
+  }
+  
+  .menu {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .menu a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 0;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    align-items: center; /* Center the icon and text vertically */
+  }
+  
+  .menu a:hover {
+    background-color: var(--secondary);
+    border-radius: 10px;
+    color: black;
+  }
+
+  .menu a:hover .menu-icon {
+    filter: invert(0); /* Change icon color to black on hover */
+  }
+  
+  .menu-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px; /* Space between icon and text */
+    filter: invert(1);
+  }

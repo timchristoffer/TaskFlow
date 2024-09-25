@@ -5,59 +5,59 @@ import './Dashboard.css';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const DashboardDetail = () => {
+const getCols = (width) => {
+    return {
+        lg: width >= 1024 ? 4 : 3,
+        md: width >= 768 ? 3 : 2,
+        sm: 1,
+        xs: 1,
+        xxs: 1,
+    };
+};
+
+const getInitialLayouts = () => {
+    const savedLayouts = JSON.parse(localStorage.getItem('dashboard-layouts'));
+    return savedLayouts || {
+        lg: [
+            { i: 'widget1', x: 0, y: 0, w: 1, h: 2 },
+            { i: 'widget2', x: 1, y: 0, w: 1, h: 2 },
+            { i: 'widget3', x: 2, y: 0, w: 1, h: 2 },
+            { i: 'widget4', x: 3, y: 0, w: 1, h: 2 },
+            { i: 'widget5', x: 0, y: 1, w: 1, h: 2 },
+            { i: 'widget6', x: 1, y: 1, w: 1, h: 2 },
+        ],
+        md: [],
+        sm: [
+            { i: 'widget1', x: 0, y: 0, w: 1, h: 3 },
+            { i: 'widget2', x: 0, y: 1, w: 1, h: 3 },
+            { i: 'widget3', x: 0, y: 2, w: 1, h: 3 },
+            { i: 'widget4', x: 0, y: 3, w: 1, h: 3 },
+            { i: 'widget5', x: 0, y: 4, w: 1, h: 3 },
+            { i: 'widget6', x: 0, y: 5, w: 1, h: 3 },
+        ],
+        xs: [
+            { i: 'widget1', x: 0, y: 0, w: 1, h: 4 },
+            { i: 'widget2', x: 0, y: 1, w: 1, h: 4 },
+            { i: 'widget3', x: 0, y: 2, w: 1, h: 4 },
+            { i: 'widget4', x: 0, y: 3, w: 1, h: 4 },
+            { i: 'widget5', x: 0, y: 4, w: 1, h: 4 },
+            { i: 'widget6', x: 0, y: 5, w: 1, h: 4 },
+        ],
+        xxs: [
+            { i: 'widget1', x: 0, y: 0, w: 1, h: 5 },
+            { i: 'widget2', x: 0, y: 1, w: 1, h: 5 },
+            { i: 'widget3', x: 0, y: 2, w: 1, h: 5 },
+            { i: 'widget4', x: 0, y: 3, w: 1, h: 5 },
+            { i: 'widget5', x: 0, y: 4, w: 1, h: 5 },
+            { i: 'widget6', x: 0, y: 5, w: 1, h: 5 },
+        ],
+    };
+};
+
+const DashboardDetail = ({ isSidebarOpen }) => {
     const { dashboardName } = useParams();
     const [layouts, setLayouts] = useState(getInitialLayouts());
     const [cols, setCols] = useState(getCols(window.innerWidth));
-
-    function getCols(width) {
-        return {
-            lg: width >= 1024 ? 4 : 3,
-            md: width >= 768 ? 3 : 2,
-            sm: 1,
-            xs: 1,
-            xxs: 1,
-        };
-    }
-
-    function getInitialLayouts() {
-        const savedLayouts = JSON.parse(localStorage.getItem('dashboard-layouts'));
-        return savedLayouts || {
-            lg: [
-                { i: 'widget1', x: 0, y: 0, w: 1, h: 2 },
-                { i: 'widget2', x: 1, y: 0, w: 1, h: 2 },
-                { i: 'widget3', x: 2, y: 0, w: 1, h: 2 },
-                { i: 'widget4', x: 3, y: 0, w: 1, h: 2 },
-                { i: 'widget5', x: 0, y: 1, w: 1, h: 2 },
-                { i: 'widget6', x: 1, y: 1, w: 1, h: 2 },
-            ],
-            md: [],
-            sm: [
-                { i: 'widget1', x: 0, y: 0, w: 1, h: 3 },
-                { i: 'widget2', x: 0, y: 1, w: 1, h: 3 },
-                { i: 'widget3', x: 0, y: 2, w: 1, h: 3 },
-                { i: 'widget4', x: 0, y: 3, w: 1, h: 3 },
-                { i: 'widget5', x: 0, y: 4, w: 1, h: 3 },
-                { i: 'widget6', x: 0, y: 5, w: 1, h: 3 },
-            ],
-            xs: [
-                { i: 'widget1', x: 0, y: 0, w: 1, h: 4 },
-                { i: 'widget2', x: 0, y: 1, w: 1, h: 4 },
-                { i: 'widget3', x: 0, y: 2, w: 1, h: 4 },
-                { i: 'widget4', x: 0, y: 3, w: 1, h: 4 },
-                { i: 'widget5', x: 0, y: 4, w: 1, h: 4 },
-                { i: 'widget6', x: 0, y: 5, w: 1, h: 4 },
-            ],
-            xxs: [
-                { i: 'widget1', x: 0, y: 0, w: 1, h: 5 },
-                { i: 'widget2', x: 0, y: 1, w: 1, h: 5 },
-                { i: 'widget3', x: 0, y: 2, w: 1, h: 5 },
-                { i: 'widget4', x: 0, y: 3, w: 1, h: 5 },
-                { i: 'widget5', x: 0, y: 4, w: 1, h: 5 },
-                { i: 'widget6', x: 0, y: 5, w: 1, h: 5 },
-            ],
-        };
-    }
 
     useEffect(() => {
         const handleResize = () => {
@@ -82,7 +82,7 @@ const DashboardDetail = () => {
     };
 
     return (
-        <div className='dashboard'>
+        <div className={`dashboard-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <div className='dashboard-container'>
                 <h2 className="dashboard-title">{dashboardName}</h2>
                 <ResponsiveGridLayout

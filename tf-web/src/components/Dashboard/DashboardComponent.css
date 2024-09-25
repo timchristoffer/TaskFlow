@@ -1,0 +1,53 @@
+/* DashboardComponent.css */
+.dashboard-container {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+  }
+  
+  .dashboard-container.sidebar-open {
+    margin-left: 250px; /* Justera detta värde beroende på sidomenyns bredd */
+  }
+  
+  .dashboard-form {
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-form input {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .dashboard-form button {
+    padding: 10px 20px;
+    background-color: #187977;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .dashboard-form button:hover {
+    background-color: #145a5a;
+  }
+  
+  .dashboard-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .dashboard-list li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .dashboard-list li a {
+    text-decoration: none;
+    color: #187977;
+  }
+  
+  .dashboard-list li a:hover {
+    text-decoration: underline;
+  }
