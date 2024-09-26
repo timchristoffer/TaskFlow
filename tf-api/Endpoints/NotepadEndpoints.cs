@@ -77,6 +77,54 @@ namespace tf_api.Endpoints
             .Produces<Note>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status404NotFound);
 
+            // Update a note for a specific notepad in a specific dashboard
+            app.MapPut("/dashboards/{dashboardId}/notepads/{notepadId}/notes/{noteId}", async (int dashboardId, int notepadId, int noteId, Note updatedNote, TaskFlowDBContext db) =>
+            {
+                var notepad = await db.Notepads
+                    .Where(n => n.DashboardId == dashboardId && n.Id == notepadId)
+                    .FirstOrDefaultAsync();
+                if (notepad is null) return Results.NotFound();
+
+                var note = await db.Notes
+                    .Where(n => n.NotepadId == notepadId && n.Id == noteId)
+                    .FirstOrDefaultAsync();
+                if (note is null) return Results.NotFound();
+
+                note.Text = updatedNote.Text;
+                await db.SaveChangesAsync();
+                return Results.NoContent();
+            })
+            .WithName("UpdateNoteForNotepad")
+            .WithSummary("Update a note for a notepad in a specific dashboard")
+            .WithDescription("Update the details of a specific note for a specific notepad in a specific dashboard")
+            .WithTags("Notepads")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound);
+
+            // Delete a note for a specific notepad in a specific dashboard
+            app.MapDelete("/dashboards/{dashboardId}/notepads/{notepadId}/notes/{noteId}", async (int dashboardId, int notepadId, int noteId, TaskFlowDBContext db) =>
+            {
+                var notepad = await db.Notepads
+                    .Where(n => n.DashboardId == dashboardId && n.Id == notepadId)
+                    .FirstOrDefaultAsync();
+                if (notepad is null) return Results.NotFound();
+
+                var note = await db.Notes
+                    .Where(n => n.NotepadId == notepadId && n.Id == noteId)
+                    .FirstOrDefaultAsync();
+                if (note is null) return Results.NotFound();
+
+                db.Notes.Remove(note);
+                await db.SaveChangesAsync();
+                return Results.NoContent();
+            })
+            .WithName("DeleteNoteForNotepad")
+            .WithSummary("Delete a note for a notepad in a specific dashboard")
+            .WithDescription("Delete a specific note by its ID for a specific notepad in a specific dashboard")
+            .WithTags("Notepads")
+            .Produces(StatusCodes.Status204NoContent)
+            .Produces(StatusCodes.Status404NotFound);
+
             // Update a notepad for a specific dashboard
             app.MapPut("/dashboards/{dashboardId}/notepads/{id}", async (int dashboardId, int id, Notepad updatedNotepad, TaskFlowDBContext db) =>
             {

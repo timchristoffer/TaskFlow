@@ -9,12 +9,25 @@ namespace tf_api.Endpoints
     {
         public static void MapTodoListEndpoints(this WebApplication app)
         {
-            app.MapGet("/todolist{Id}", GetListById)
-                .WithSummary("Get Todo-List by ID")
-                .WithDescription("Get specific Todo-list by ID")
-                .WithTags("TodoLists")
-                .Produces<TodoList>(StatusCodes.Status200OK)
-                .Produces(StatusCodes.Status404NotFound);
+            // Get all notepads for a specific dashboard
+            app.MapGet("/dashboards/{dashboardId}/todolists", async (int dashboardId, TaskFlowDBContext db) =>
+            {
+                return await db.TodoLists
+                    .Where(td => td.DashboardId == dashboardId)
+                    .ToListAsync();
+            })
+                .WithName("Get all Todo lists")
+                .WithSummary("Get all Todolists for a specific dashboard")
+                .WithDescription("Retrieve a list of all Todo lists for a specific dashboard including their todos")
+                .WithTags("Todolist")
+                .Produces<List<TodoList>>(StatusCodes.Status200OK);
+
+            app.MapGet("/todolist/{id}", GetListById)
+                .WithName("Get specific Todo lists")
+                .WithSummary("Gets a specific Todo list")
+                .WithDescription("Retrieve a Todo list without checking parent dashboard")
+                .WithTags("Todolist")
+                .Produces<List<TodoList>>(StatusCodes.Status200OK); ;
         }
 
         //Hanlders
