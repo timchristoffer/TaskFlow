@@ -2,8 +2,9 @@ import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import axios from 'axios';
+import TodoList from  '../TodoList/TodoListComponent';
+
 import './Dashboard.css';
-import TodoList from '../TodoList/TodoList'; // Adjust the path as necessary
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -69,6 +70,18 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                 })
                 .catch(error => {
                     console.error('Error fetching notepads:', error);
+                });
+        }
+    }, [dashboardId]);
+
+    useEffect(() => {
+        if (dashboardId) {
+            axios.get(`https://localhost:7287/dashboards/${dashboardId}/todolists`)
+                .then(response => {
+                    setTodolists(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching TodoLists:', error);
                 });
         }
     }, [dashboardId]);
