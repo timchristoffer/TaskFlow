@@ -10,6 +10,7 @@ namespace tf_api.Endpoints
     {
         public static void MapDashboardEndpoints(this WebApplication app)
         {
+            // Get all dashboards
             app.MapGet("/dashboards", async (TaskFlowDBContext db) =>
             {
                 return await db.Dashboards.ToListAsync();
@@ -20,12 +21,11 @@ namespace tf_api.Endpoints
             .WithTags("Dashboards")
             .Produces<List<Dashboard>>(StatusCodes.Status200OK);
 
+            // Get a specific dashboard by ID
             app.MapGet("/dashboards/{id}", async (int id, TaskFlowDBContext db) =>
             {
-                return await db.Dashboards.FindAsync(id)
-                    is Dashboard dashboard
-                        ? Results.Ok(dashboard)
-                        : Results.NotFound();
+                var dashboard = await db.Dashboards.FindAsync(id);
+                return dashboard is not null ? Results.Ok(dashboard) : Results.NotFound();
             })
             .WithName("GetDashboardById")
             .WithSummary("Get dashboard by ID")
@@ -34,6 +34,7 @@ namespace tf_api.Endpoints
             .Produces<Dashboard>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound);
 
+            // Create a new dashboard
             app.MapPost("/dashboards", async (Dashboard dashboard, TaskFlowDBContext db) =>
             {
                 db.Dashboards.Add(dashboard);
@@ -46,6 +47,7 @@ namespace tf_api.Endpoints
             .WithTags("Dashboards")
             .Produces<Dashboard>(StatusCodes.Status201Created);
 
+            // Update an existing dashboard
             app.MapPut("/dashboards/{id}", async (int id, Dashboard updatedDashboard, TaskFlowDBContext db) =>
             {
                 var dashboard = await db.Dashboards.FindAsync(id);
@@ -62,6 +64,7 @@ namespace tf_api.Endpoints
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound);
 
+            // Delete a dashboard
             app.MapDelete("/dashboards/{id}", async (int id, TaskFlowDBContext db) =>
             {
                 var dashboard = await db.Dashboards.FindAsync(id);

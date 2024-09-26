@@ -57,7 +57,7 @@ const DashboardComponent = ({ isSidebarOpen }) => {
             <ul className="dashboard-list">
                 {dashboards.map((dashboard) => (
                     <li key={dashboard.id}>
-                        <Link to={`/dashboard/${dashboard.name}`}>{dashboard.name}</Link>
+                        <Link to={`/dashboard/${dashboard.id}`}>{dashboard.name}</Link>
                     </li>
                 ))}
             </ul>

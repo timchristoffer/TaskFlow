@@ -1,0 +1,44 @@
+.notepad-widget {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .notepad-widget h2, .notepad-widget h3, .notepad-widget h4 {
+    margin-top: 0;
+  }
+  
+  .notepad-widget input, .notepad-widget textarea, .notepad-widget select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .notepad-widget button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .notepad-widget button:hover {
+    background-color: #0056b3;
+  }
+  
+  .notepad-widget ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .notepad-widget li {
+    background-color: #fff;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }

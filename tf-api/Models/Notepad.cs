@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int DashboardId { get; set; }
         public List<Note> Notes { get; set; }
     }
 }
