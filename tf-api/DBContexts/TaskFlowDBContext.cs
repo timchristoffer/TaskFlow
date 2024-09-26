@@ -5,9 +5,7 @@ namespace tf_api.DBContexts
 {
     public class TaskFlowDBContext : DbContext
     {
-        //public TaskFlowDBContext(DbContextOptions<TaskFlowDBContext> options) : base(options)
-        //{
-        //}
+        public TaskFlowDBContext(DbContextOptions<TaskFlowDBContext> options) : base(options) { }
 
         public DbSet<Dashboard> Dashboards { get; set; }
         public DbSet<TodoList> TodoLists { get; set; }
@@ -17,6 +15,15 @@ namespace tf_api.DBContexts
         public DbSet<Notepad> Notepads { get; set; }
         public DbSet<Note> Notes { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Notepad>()
+                .HasOne<Dashboard>()
+                .WithMany(d => d.Notepads)
+                .HasForeignKey(n => n.DashboardId);
+
+            base.OnModelCreating(modelBuilder);
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

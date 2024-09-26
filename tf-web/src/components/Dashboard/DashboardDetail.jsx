@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import { WidthProvider, Responsive } from 'react-grid-layout';
+import axios from 'axios';
 import './Dashboard.css';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
+
+// Dynamisk import av NotepadComponent
+const NotepadComponent = lazy(() => import('../Notepad/NotepadComponent'));
 
 const getCols = (width) => {
     return {
@@ -15,49 +19,14 @@ const getCols = (width) => {
     };
 };
 
-const getInitialLayouts = () => {
-    const savedLayouts = JSON.parse(localStorage.getItem('dashboard-layouts'));
-    return savedLayouts || {
-        lg: [
-            { i: 'widget1', x: 0, y: 0, w: 1, h: 2 },
-            { i: 'widget2', x: 1, y: 0, w: 1, h: 2 },
-            { i: 'widget3', x: 2, y: 0, w: 1, h: 2 },
-            { i: 'widget4', x: 3, y: 0, w: 1, h: 2 },
-            { i: 'widget5', x: 0, y: 1, w: 1, h: 2 },
-            { i: 'widget6', x: 1, y: 1, w: 1, h: 2 },
-        ],
-        md: [],
-        sm: [
-            { i: 'widget1', x: 0, y: 0, w: 1, h: 3 },
-            { i: 'widget2', x: 0, y: 1, w: 1, h: 3 },
-            { i: 'widget3', x: 0, y: 2, w: 1, h: 3 },
-            { i: 'widget4', x: 0, y: 3, w: 1, h: 3 },
-            { i: 'widget5', x: 0, y: 4, w: 1, h: 3 },
-            { i: 'widget6', x: 0, y: 5, w: 1, h: 3 },
-        ],
-        xs: [
-            { i: 'widget1', x: 0, y: 0, w: 1, h: 4 },
-            { i: 'widget2', x: 0, y: 1, w: 1, h: 4 },
-            { i: 'widget3', x: 0, y: 2, w: 1, h: 4 },
-            { i: 'widget4', x: 0, y: 3, w: 1, h: 4 },
-            { i: 'widget5', x: 0, y: 4, w: 1, h: 4 },
-            { i: 'widget6', x: 0, y: 5, w: 1, h: 4 },
-        ],
-        xxs: [
-            { i: 'widget1', x: 0, y: 0, w: 1, h: 5 },
-            { i: 'widget2', x: 0, y: 1, w: 1, h: 5 },
-            { i: 'widget3', x: 0, y: 2, w: 1, h: 5 },
-            { i: 'widget4', x: 0, y: 3, w: 1, h: 5 },
-            { i: 'widget5', x: 0, y: 4, w: 1, h: 5 },
-            { i: 'widget6', x: 0, y: 5, w: 1, h: 5 },
-        ],
-    };
-};
-
 const DashboardDetail = ({ isSidebarOpen }) => {
-    const { dashboardName } = useParams();
-    const [layouts, setLayouts] = useState(getInitialLayouts());
+    const { dashboardId } = useParams();
+    const [layouts, setLayouts] = useState({ lg: [], md: [], sm: [], xs: [], xxs: [] });
     const [cols, setCols] = useState(getCols(window.innerWidth));
+    const [dashboard, setDashboard] = useState(null);
+    const [newNotepadName, setNewNotepadName] = useState('');
+    const [notepads, setNotepads] = useState([]);
+    const [widgetCounter, setWidgetCounter] = useState(1);
 
     useEffect(() => {
         const handleResize = () => {
@@ -71,6 +40,74 @@ const DashboardDetail = ({ isSidebarOpen }) => {
         };
     }, []);
 
+    useEffect(() => {
+        const fetchDashboard = async () => {
+            try {
+                const response = await axios.get(`https://localhost:7287/dashboards/${dashboardId}`);
+                setDashboard(response.data);
+            } catch (error) {
+                console.error('Error fetching dashboard:', error);
+                alert("Failed to fetch dashboard");
+            }
+        };
+
+        fetchDashboard();
+    }, [dashboardId]);
+
+    useEffect(() => {
+        if (dashboardId) {
+            axios.get(`https://localhost:7287/dashboards/${dashboardId}/notepads`)
+                .then(response => {
+                    setNotepads(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching notepads:', error);
+                });
+        }
+    }, [dashboardId]);
+
+    const createNotepad = (name) => {
+        if (!name.trim()) {
+            alert('Notepad name cannot be empty.');
+            return;
+        }
+
+        axios.post(`https://localhost:7287/dashboards/${dashboardId}/notepads`, { name, dashboardId })
+            .then(response => {
+                setNotepads([...notepads, { ...response.data, notes: [] }]);
+                setNewNotepadName('');
+                addWidget('notepad', response.data.id);
+            })
+            .catch(error => {
+                console.error('Error creating notepad:', error);
+                alert('Error creating notepad. Please try again.');
+            });
+    };
+
+    const addWidget = (widgetType, notepadId = null) => {
+        if (!widgetType) return;
+
+        const newWidget = {
+            i: `widget${widgetCounter}-${widgetType}`,
+            x: (layouts.lg.length % cols.lg),
+            y: Infinity, // puts it at the bottom
+            w: 1,
+            h: 2,
+            type: widgetType,
+            notepadId: notepadId,
+        };
+
+        setLayouts((prevLayouts) => {
+            const newLayouts = { ...prevLayouts };
+            Object.keys(newLayouts).forEach((key) => {
+                newLayouts[key] = [...newLayouts[key], newWidget];
+            });
+            return newLayouts;
+        });
+
+        setWidgetCounter(widgetCounter + 1);
+    };
+
     const handleLayoutChange = (newLayout, allLayouts) => {
         setLayouts(allLayouts);
         localStorage.setItem('dashboard-layouts', JSON.stringify(allLayouts));
@@ -81,10 +118,33 @@ const DashboardDetail = ({ isSidebarOpen }) => {
         setCols(newCols);
     };
 
+    const handleAddWidget = (e) => {
+        const widgetType = e.target.value;
+        if (widgetType === 'notepad') {
+            createNotepad('New Notepad');
+        }
+    };
+
     return (
         <div className={`dashboard-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <div className='dashboard-container'>
-                <h2 className="dashboard-title">{dashboardName}</h2>
+                <h2 className="dashboard-title">{dashboard ? dashboard.name : 'Loading...'}</h2>
+                <div>
+                    <input
+                        type="text"
+                        value={newNotepadName}
+                        onChange={(e) => setNewNotepadName(e.target.value)}
+                        placeholder="New notepad name"
+                    />
+                    <button onClick={() => createNotepad(newNotepadName)}>Create Notepad</button>
+                </div>
+                <div>
+                    <select onChange={handleAddWidget}>
+                        <option value="">Add Widget</option>
+                        <option value="notepad">Notepad</option>
+                        {/* Add more widget options here */}
+                    </select>
+                </div>
                 <ResponsiveGridLayout
                     className="layout"
                     layouts={layouts}
@@ -101,7 +161,15 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                     {layouts.lg.map((item) => (
                         <div key={item.i} className="grid-item">
                             <div className="grid-item__title">Widget {item.i.replace('widget', '')}</div>
-                            <div className="grid-item__content">Content for {item.i}</div>
+                            <div className="grid-item__content">
+                                {item.type === 'notepad' ? (
+                                    <Suspense fallback={<div>Loading...</div>}>
+                                        <NotepadComponent dashboardId={dashboardId} notepads={notepads} setNotepads={setNotepads} />
+                                    </Suspense>
+                                ) : (
+                                    `Content for ${item.i}`
+                                )}
+                            </div>
                         </div>
                     ))}
                 </ResponsiveGridLayout>

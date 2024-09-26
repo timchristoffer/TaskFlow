@@ -19,7 +19,7 @@ function App() {
         <div className={`content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
           <Routes>
             <Route path="/" element={<Dashboard isSidebarOpen={isSidebarOpen} />} />
-            <Route path="/dashboard/:dashboardName" element={<DashboardDetail isSidebarOpen={isSidebarOpen} />} />
+            <Route path="/dashboard/:dashboardId" element={<DashboardDetail isSidebarOpen={isSidebarOpen} />} />
             {/* Här kan du lägga till fler routes senare */}
           </Routes>
         </div>

@@ -46,7 +46,7 @@ app.UseHttpsRedirection();
 // Aktivera CORS
 app.UseCors("AllowAllOrigins");
 
-// Här kan du definiera dina API-endpoints
+
 app.MapDashboardEndpoints();
 app.MapTodoListEndpoints();
 app.MapNotepadEndpoints();
