@@ -2,6 +2,8 @@ import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import axios from 'axios';
+import TodoList from  '../TodoList/TodoListComponent';
+
 import './Dashboard.css';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -27,6 +29,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
     const [newNotepadName, setNewNotepadName] = useState('');
     const [notepads, setNotepads] = useState([]);
     const [widgetCounter, setWidgetCounter] = useState(1);
+    const [todoLists, setTodoLists] = useState([]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -65,6 +68,22 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                 });
         }
     }, [dashboardId]);
+
+    useEffect(() => {
+        if (dashboardId) {
+            axios.get(`https://localhost:7287/dashboards/${dashboardId}/todolists`)
+                .then(response => {
+                    setTodoLists(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching TodoLists:', error);
+                });
+        }
+    }, [dashboardId]);
+
+    const dashTodos = todoLists.map(t => (
+        <TodoList key={t.id} id={t.id} name={t.name} />
+    ));
 
     const createNotepad = (name) => {
         if (!name.trim()) {
@@ -128,7 +147,10 @@ const DashboardDetail = ({ isSidebarOpen }) => {
     return (
         <div className={`dashboard-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <div className='dashboard-container'>
-                <h2 className="dashboard-title">{dashboard ? dashboard.name : 'Loading...'}</h2>
+                <h2 className="dashboard-title">{dashboard ? dashboard.name : 'Loading...'}
+                    <br />
+                    {dashTodos}
+                </h2>
                 <div>
                     <input
                         type="text"
