@@ -101,3 +101,23 @@ body {
     border: 2px dashed var(--accent);
     background-color: rgba(0, 255, 0, 0.1);
 }
+
+.dropdown-container {
+    margin-bottom: 16px;
+}
+
+.dropdown {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--secondary-text);
+    border-radius: 4px;
+    background-color: var(--background);
+    color: var(--text);
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.dropdown option {
+    background-color: var(--background);
+    color: var(--text);
+}
