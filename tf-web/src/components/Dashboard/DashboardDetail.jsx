@@ -79,12 +79,19 @@ const DashboardDetail = ({ isSidebarOpen }) => {
             axios.get(`https://localhost:7287/dashboards/${dashboardId}/todolists`)
                 .then(response => {
                     setTodolists(response.data);
+                    response.data.forEach(todoList => {
+                        addWidget('todolist', todoList.id, todoList.name);
+                    });
                 })
                 .catch(error => {
                     console.error('Error fetching TodoLists:', error);
                 });
         }
     }, [dashboardId]);
+
+    const dashTodos =todolists.map(td =>  
+        <TodoList key={td.id} id={td.id} name={td.name}/>
+        )
 
     const createNotepad = (name) => {
         if (!name.trim()) {
@@ -187,6 +194,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
     return (
         <div className={`dashboard-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <div className='dashboard-container'>
+                                            
                 <h2 className="dashboard-title">{dashboard ? dashboard.name : 'Loading...'}</h2>
                 <div className='dropdown-container'>
                     <select className='dropdown' onChange={handleAddWidget}>
@@ -223,7 +231,9 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                                 <div className="grid-item__content">
                                     {item.type === 'todolist' ? (
                                         <Suspense fallback={<div>Loading...</div>}>
-                                            <TodoList />
+                                            <TodoList id={item.notepadId} name={item.name}/>   
+                                                                                         
+                                            {/* <TodoList id={item.id} name={item.name}/> */}
                                         </Suspense>
                                     ) : item.type === 'notepad' ? (
                                         <Suspense fallback={<div>Loading...</div>}>
@@ -237,6 +247,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                                         `Content for ${item.i}`
                                     )}
                                 </div>
+                                
                             </div>
                         ));
                     })()}
