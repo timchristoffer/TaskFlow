@@ -1,12 +1,15 @@
 .TodoList{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     padding: 10px;
-    background: #6ebe64;
-    width: 300px;
-    height: 300px;
-    border-radius: 10px;
-    border-style: solid;
-    border-color: bisque;
+    width: 100%;
+    height: 100%;
+    
+}
+
+.TodoList > ul{
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
 }

@@ -227,13 +227,11 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                             }
                         }).map((item) => (
                             <div key={item.i} className="grid-item">
-                                <div className="grid-item__title">{"Notepad" || `Widget ${item.i.replace('widget', '')}`}</div>
+                                <div className="grid-item__title">{item.type || `Widget ${item.i.replace('widget', '')}`}</div>
                                 <div className="grid-item__content">
                                     {item.type === 'todolist' ? (
                                         <Suspense fallback={<div>Loading...</div>}>
-                                            <TodoList id={item.notepadId} name={item.name}/>   
-                                                                                         
-                                            {/* <TodoList id={item.id} name={item.name}/> */}
+                                            <TodoList id={item.notepadId} name={item.notepadName}/>   
                                         </Suspense>
                                     ) : item.type === 'notepad' ? (
                                         <Suspense fallback={<div>Loading...</div>}>
