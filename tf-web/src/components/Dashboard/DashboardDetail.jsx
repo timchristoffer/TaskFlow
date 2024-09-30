@@ -230,7 +230,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                                 <div className="grid-item__content">
                                     {item.type === 'todolist' ? (
                                         <Suspense fallback={<div>Loading...</div>}>
-                                            <TodoList id={item.notepadId} name={item.name}/>   
+                                            <TodoList id={item.notepadId} name={item.notepadName}/>   
                                         </Suspense>
                                     ) : item.type === 'notepad' ? (
                                         <Suspense fallback={<div>Loading...</div>}>
