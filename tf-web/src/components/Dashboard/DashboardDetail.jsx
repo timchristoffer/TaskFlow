@@ -2,7 +2,7 @@ import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import axios from 'axios';
-import TodoList from  '../TodoList/TodoListComponent';
+import TodoList from '../TodoList/TodoListComponent';
 
 import './Dashboard.css';
 
@@ -61,7 +61,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
 
     useEffect(() => {
         if (dashboardId) {
-            axios.get(`https://localhost:7287/dashboards/${dashboardId}/notepads`)
+            axios.get(`https://localhost:7287/notepads`)
                 .then(response => {
                     setNotepads(response.data);
                     response.data.forEach(notepad => {
@@ -89,9 +89,9 @@ const DashboardDetail = ({ isSidebarOpen }) => {
         }
     }, [dashboardId]);
 
-    const dashTodos =todolists.map(td =>  
+    const dashTodos = todolists.map(td =>  
         <TodoList key={td.id} id={td.id} name={td.name}/>
-        )
+    );
 
     const createNotepad = (name) => {
         if (!name.trim()) {
@@ -99,7 +99,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
             return;
         }
 
-        axios.post(`https://localhost:7287/dashboards/${dashboardId}/notepads`, { name, dashboardId })
+        axios.post(`https://localhost:7287/notepads`, { name, dashboardId })
             .then(response => {
                 setNotepads([...notepads, { ...response.data, notes: [] }]);
                 setNewNotepadName('');
@@ -130,7 +130,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
     };
 
     const removeNotepad = (notepadId) => {
-        axios.delete(`https://localhost:7287/dashboards/${dashboardId}/notepads/${notepadId}`)
+        axios.delete(`https://localhost:7287/notepads/${notepadId}`)
             .then(() => {
                 setNotepads(notepads.filter(notepad => notepad.id !== notepadId));
                 setLayouts((prevLayouts) => {
@@ -194,7 +194,6 @@ const DashboardDetail = ({ isSidebarOpen }) => {
     return (
         <div className={`dashboard-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <div className='dashboard-container'>
-                                            
                 <h2 className="dashboard-title">{dashboard ? dashboard.name : 'Loading...'}</h2>
                 <div className='dropdown-container'>
                     <select className='dropdown' onChange={handleAddWidget}>
@@ -245,7 +244,6 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                                         `Content for ${item.i}`
                                     )}
                                 </div>
-                                
                             </div>
                         ));
                     })()}

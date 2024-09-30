@@ -4,6 +4,7 @@
   padding: 16px;
   margin-bottom: 16px;
   color: var(--text);
+  user-select: none;
 }
 
 .notepad-name {
@@ -11,6 +12,7 @@
   margin-bottom: 16px;
   cursor: pointer;
   color: var(--text);
+  user-select: none;
 }
 
 .notepad-name-edit input {
@@ -23,6 +25,7 @@
   border: 1px solid var(--secondary-text);
   border-radius: 4px;
   margin-bottom: 16px;
+  user-select: text;
 }
 
 .notepad-notes {
@@ -44,6 +47,7 @@
   border: 1px solid var(--secondary-text);
   border-radius: 4px;
   margin-bottom: 8px;
+  user-select: text; 
 }
 
 .notepad-notes button {
@@ -82,6 +86,7 @@
   border-radius: 4px;
   padding: 8px;
   box-sizing: border-box;
+  user-select: text; 
 }
 
 .notepad-notes-list .note .note-actions {
@@ -122,7 +127,7 @@
   color: var(--secondary-text);
 }
 
-.notepad-footer{
+.notepad-footer {
   display: flex;
   justify-content: flex-end;
   margin-top: 24px;
@@ -142,13 +147,13 @@
 }
 
 .note-container {
-  display: flex; /* Använd flexbox */
-  justify-content: space-between; /* Fördela utrymmet mellan text och knappar */
-  align-items: center; /* Centrera dem vertikalt */
-  width: 100%; /* Eller ange en specifik bredd */
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  width: 100%;
 }
 
 .note-actions {
-  display: flex; /* Flexbox för knapparna */
-  gap: 8px; /* Avstånd mellan knapparna */
+  display: flex; 
+  gap: 8px; 
 }
