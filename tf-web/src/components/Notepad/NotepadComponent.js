@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Notepad.css'; // Importera CSS-filen
 
-const NotepadComponent = ({ dashboardId, notepadId, removeNotepad }) => {
+const NotepadComponent = ({ notepadId, removeNotepad }) => {
   const [notepad, setNotepad] = useState(null);
   const [newNoteContent, setNewNoteContent] = useState('');
   const [isEditingName, setIsEditingName] = useState(false);
@@ -14,7 +14,7 @@ const NotepadComponent = ({ dashboardId, notepadId, removeNotepad }) => {
     const fetchNotepad = async () => {
       try {
         console.log(`Fetching notepad with ID: ${notepadId}`);
-        const response = await axios.get(`https://localhost:7287/dashboards/${dashboardId}/notepads/${notepadId}`);
+        const response = await axios.get(`https://localhost:7287/notepads/${notepadId}`);
         console.log('Fetched notepad:', response.data);
         setNotepad(response.data);
         setNewNotepadName(response.data.name);
@@ -25,7 +25,7 @@ const NotepadComponent = ({ dashboardId, notepadId, removeNotepad }) => {
     };
 
     fetchNotepad();
-  }, [dashboardId, notepadId]);
+  }, [notepadId]);
 
   const createNote = () => {
     if (!newNoteContent.trim()) {
@@ -33,7 +33,7 @@ const NotepadComponent = ({ dashboardId, notepadId, removeNotepad }) => {
       return;
     }
 
-    axios.post(`https://localhost:7287/dashboards/${dashboardId}/notepads/${notepadId}/notes`, { text: newNoteContent })
+    axios.post(`https://localhost:7287/notepads/${notepadId}/notes`, { text: newNoteContent })
       .then(response => {
         console.log('Created note:', response.data);
         setNotepad(prevNotepad => ({
@@ -54,7 +54,7 @@ const NotepadComponent = ({ dashboardId, notepadId, removeNotepad }) => {
       return;
     }
 
-    axios.put(`https://localhost:7287/dashboards/${dashboardId}/notepads/${notepadId}`, { name: newNotepadName })
+    axios.put(`https://localhost:7287/notepads/${notepadId}`, { name: newNotepadName })
       .then(() => {
         console.log('Updated notepad name:', newNotepadName);
         setNotepad(prevNotepad => ({
@@ -70,7 +70,7 @@ const NotepadComponent = ({ dashboardId, notepadId, removeNotepad }) => {
   };
 
   const deleteNote = (noteId) => {
-    axios.delete(`https://localhost:7287/dashboards/${dashboardId}/notepads/${notepadId}/notes/${noteId}`)
+    axios.delete(`https://localhost:7287/notepads/${notepadId}/notes/${noteId}`)
       .then(() => {
         setNotepad(prevNotepad => ({
           ...prevNotepad,
@@ -101,20 +101,17 @@ const NotepadComponent = ({ dashboardId, notepadId, removeNotepad }) => {
     console.log(`Updating note with ID: ${editingNoteId}`);
     console.log(`New note content: ${editingNoteContent}`);
 
-    // Skicka PUT-anrop till servern för att uppdatera texten
-    axios.put(`https://localhost:7287/dashboards/${dashboardId}/notepads/${notepadId}/notes/${editingNoteId}`, { text: editingNoteContent })
+    axios.put(`https://localhost:7287/notepads/${notepadId}/notes/${editingNoteId}`, { text: editingNoteContent })
       .then(response => {
         console.log('Updated note:', response.data);
 
-        // Uppdatera den lokala state med den nya texten
         setNotepad(prevNotepad => ({
           ...prevNotepad,
           notes: prevNotepad.notes.map(note => 
-            note.id === editingNoteId ? { ...note, text: editingNoteContent } : note // Endast uppdatera texten
+            note.id === editingNoteId ? { ...note, text: editingNoteContent } : note
           )
         }));
 
-        // Återställ redigeringstillstånd
         setEditingNoteId(null);
         setEditingNoteContent('');
       })
