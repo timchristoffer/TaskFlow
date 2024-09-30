@@ -26,10 +26,41 @@ namespace tf_api.Endpoints
                 .Produces<List<TodoList>>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound);
 
+            app.MapPost("/todolist/{todoListId}/todos", async (int todoListId, Todo todo, TaskFlowDBContext db) =>
+            {
+                var todolist = await db.TodoLists
+                    .Where(td => td.Id == todoListId)
+                    .FirstOrDefaultAsync();
+                if (todolist is null)
+                {
+                    return Results.NotFound();
+                }
+
+                todo.IsDone = false;
+                todo.TodoListId = todoListId;
+                db.Todos.Add(todo);
+                await db.SaveChangesAsync();
+                return Results.Created($"/todolist/{todoListId}/todos/{todo.Id}", todo);
+            })
+            .WithName("Create todo")
+            .WithSummary("Create a new todo for a Todolist")
+            .WithDescription("Create a new todo for a specific todoList in a specific dashboard and return the created todo")
+            .WithTags("Todolist")
+            .Produces<Todo>(StatusCodes.Status201Created)
+            .Produces(StatusCodes.Status404NotFound);
+
             app.MapDelete("/todolist/{id}", DeleteListById)
                 .WithName("Delet Todolist")
                 .WithSummary("Deletes a Todo list")
                 .WithDescription("Removes a whole list of Todos")
+                .WithTags("Todolist")
+                .Produces(StatusCodes.Status204NoContent)
+                .Produces(StatusCodes.Status404NotFound);
+
+            app.MapDelete("/todo/{id}", DeleteTodoById)
+                .WithName("Delet Todo")
+                .WithSummary("Deletes a Todo")
+                .WithDescription("Removes a todo specified by id")
                 .WithTags("Todolist")
                 .Produces(StatusCodes.Status204NoContent)
                 .Produces(StatusCodes.Status404NotFound);
@@ -41,15 +72,11 @@ namespace tf_api.Endpoints
                 {
                     return Results.NotFound();
                 }
-
-                // Uppdatera `IsDone` eller andra fält
                 todo.IsDone = updatedTodo.IsDone;
-
-                // Spara ändringarna i databasen
                 await db.SaveChangesAsync();
-
-                return Results.NoContent();  // Returnera 204 om uppdateringen lyckades
-            });
+                return Results.NoContent();
+            })
+                .WithTags("Todolist");
 
         }
 
@@ -82,6 +109,17 @@ namespace tf_api.Endpoints
                 return Results.NotFound();
             }
             db.TodoLists.Remove(todolist);
+            await db.SaveChangesAsync();
+            return Results.NoContent();
+        }
+        private static async Task<IResult> DeleteTodoById(int id, TaskFlowDBContext db)
+        {
+            var todo = await db.Todos.FindAsync(id);
+            if (todo is null)
+            {
+                return Results.NotFound();
+            }
+            db.Todos.Remove(todo);
             await db.SaveChangesAsync();
             return Results.NoContent();
         }
