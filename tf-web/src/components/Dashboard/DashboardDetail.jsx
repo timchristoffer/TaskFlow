@@ -93,7 +93,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
 
     useEffect(() => {
         if (dashboardId) {
-            axios.get(`https://localhost:7287/budgetLists`)//remove big L
+            axios.get(`https://localhost:7287/budgetLists`, { params: {dashboardId} })//remove big L
                 .then(response => {
                     setBudgetLists(response.data);
                     response.data.forEach(budgetList => {
@@ -283,6 +283,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                                             <BudgetList
                                                 dashboardId={dashboardId}
                                                 id={item.widgetId}
+                                                name={item.widgetName}
                                             />
                                         </Suspense>
                                     ) : (

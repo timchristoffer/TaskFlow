@@ -11,7 +11,7 @@ const BudgetList = (props) => {
     useEffect(() => {
         const getData = async () => {
             try {
-                const response = await axios.get('https://localhost:7287/budgetLists/${props.id}');
+                const response = await axios.get(`https://localhost:7287/budgetLists/${props.id}`);
                 console.log("Response data: ", response.data);
                 setBudgetList(response.data);
             } catch (error) {

@@ -22,12 +22,15 @@ namespace tf_api.Endpoints
 
         private static async Task<IResult> GetAllBudgetLists(int dashboardId, TaskFlowDBContext db)
         {
-            var budgetLists = await db.BudgetLists
+            var result = await db.BudgetLists
                 .Where(bl => bl.DashboardId == dashboardId)
                 .Include(bl => bl.Items)
-                .ToListAsync();
+                .ToListAsync()
+                is List<BudgetList> budgetLists
+                ? Results.Ok(budgetLists)
+                : Results.NotFound("Couldn't find list");
             //add notfound return
-            return Results.Ok(budgetLists);
+            return result;
         }
 
         private static async Task<IResult> GetBudgetListById(TaskFlowDBContext db, int budgetListId)
