@@ -42,37 +42,14 @@ const BudgetList = (props) => {
         });
     };
 
-    // const handleAddProduct = async () => {
-    //     if (productName && productPrice) {
-    //         const newProduct = { name: productName, price: parseInt(productPrice) };
-
-    //         try {
-    //             const response = await axios.post('/budgetLists', newProduct)
-    //             setProducts([...products, response.data]);
-    //             setProductName('');
-    //             setProductPrice('');
-    //         } catch (error){
-    //             console.error("Could not add product:", error)
-    //         }
-    //     }
-    // };
-
-    // const handleAddProduct = () => {
-    //     if (productName && productPrice) {
-    //         const newProduct = { name: productName, price: parseInt(productPrice) };
-    
-    //         setProducts([...products, newProduct]);
-    //         setProductName('');
-    //         setProductPrice('');
-    //     }
-    // };
-
-    const totalSum = products.reduce((sum, product) => sum + product.price, 0);
+    //const totalSum = products.reduce((sum, product) => sum + product.price, 0);
+    const totalSum = budgetList.items 
+        ? budgetList.items.reduce((sum, item) => sum + parseInt(item.price), 0) : 0;
 
     const budgetItems = budgetList.items && budgetList.items.length > 0 ? (
         budgetList.items.map((item) => (
             <li key={item.id}>
-                {item.name} - {item.price}
+                {item.name} - {item.price}kr
             </li>
         ))
     ) : (
@@ -99,16 +76,11 @@ const BudgetList = (props) => {
             <div className='productList'>
                 <h4>Product List:</h4>
                 <ul>
-                    {/* {products.map((product, index) => (
-                        <li key={index}>
-                            {product.name} - ${product.price}
-                        </li>
-                    ))} */}
                     {budgetItems}
                 </ul>
             </div>
             <div>
-                {/* <h4>Total: ${totalSum}</h4> */}
+               <h4>Total: {totalSum}kr</h4>
             </div>
         </div>
     );
