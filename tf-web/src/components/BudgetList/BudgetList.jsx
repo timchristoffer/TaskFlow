@@ -24,25 +24,40 @@ const BudgetList = (props) => {
     }, [props.id]);
 
     const addProduct = () => {
-        if (!newItem.trim()){
-            alert('Item cannot be empty')
+        console.log("Product Name:", productName);
+        console.log("Product Price:", productPrice);
+
+        if (!productName.trim()) {
+            alert('Product name cannot be empty');
             return;
         }
 
-        axios.post('https://localhost7287/budgetList/${props.id}/budgetItems', {name: productName, price: productPrice})
-            .then(response => {
-                console.log('Created budget item', response.data);
-                setBudgetList(prevBudgetList => ({...prevBudgetList, items: [...prevBudgetList.items, response.data]
+        if (!productPrice || isNaN(productPrice)) {
+            alert('Product price must be a valid number');
+            return;
+        }
+    
+        const price = parseInt(productPrice);
+    
+        axios.post(`https://localhost:7287/budgetList/${props.id}/budgetItems`, {
+            name: productName,
+            price: price
+        })
+        .then(response => {
+            console.log('Created budget item', response.data);
+            setBudgetList(prevBudgetList => ({
+                ...prevBudgetList,
+                items: [...prevBudgetList.items, response.data]
             }));
-            setNewItem('');
-            })
+            setProductName('');
+            setProductPrice('');
+        })
         .catch(error => {
-            console.error('Error adding budget item:', error)
-            alert('Error creating budget item')
+            console.error('Error adding budget item:', error);
+            alert('Error creating budget item');
         });
     };
 
-    //const totalSum = products.reduce((sum, product) => sum + product.price, 0);
     const totalSum = budgetList.items 
         ? budgetList.items.reduce((sum, item) => sum + parseInt(item.price), 0) : 0;
 
