@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import axios from 'axios';
 import TodoList from '../TodoList/TodoListComponent';
+import BudgetList from '../BudgetList/BudgetList';
 
 import './Dashboard.css';
 
@@ -32,6 +33,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
     const [widgetCounter, setWidgetCounter] = useState(1);
     const [todolists, setTodolists] = useState([]);
     const [newTodolistName, setNewTodolistName] = useState('');
+    const [budgetLists, setBudgetLists] = useState([]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -85,6 +87,21 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                 })
                 .catch(error => {
                     console.error('Error fetching TodoLists:', error);
+                });
+        }
+    }, [dashboardId]);
+
+    useEffect(() => {
+        if (dashboardId) {
+            axios.get(`https://localhost:7287/budgetLists`)//remove big L
+                .then(response => {
+                    setBudgetLists(response.data);
+                    response.data.forEach(budgetList => {
+                        addWidget('budgetlist', budgetList.id, budgetList.name);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching BudgetLists:', error);
                 });
         }
     }, [dashboardId]);
@@ -259,6 +276,13 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                                                 dashboardId={dashboardId}
                                                 notepadId={item.widgetId}
                                                 removeNotepad={removeNotepad}
+                                            />
+                                        </Suspense>
+                                    ) : item.type === 'budgetlist' ? (
+                                        <Suspense fallback={<div>Loading...</div>}>
+                                            <BudgetList
+                                                dashboardId={dashboardId}
+                                                id={item.widgetId}
                                             />
                                         </Suspense>
                                     ) : (
