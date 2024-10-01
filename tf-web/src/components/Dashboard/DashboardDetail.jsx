@@ -78,7 +78,8 @@ const DashboardDetail = ({ isSidebarOpen }) => {
 
     useEffect(() => {
         if (dashboardId) {
-            axios.get(`https://localhost:7287/dashboards/${dashboardId}/todolists`)
+            axios.get(`https://localhost:7287/todolists`, { params:  {dashboardId} })
+
                 .then(response => {
                     setTodolists(response.data);
                     response.data.forEach(todoList => {
