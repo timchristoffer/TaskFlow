@@ -117,7 +117,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
             return;
         }
 
-        axios.post(`https://localhost:7287/dashboards/${dashboardId}/todolists`, { name, dashboardId })
+        axios.post(`https://localhost:7287/todolist`, { name, dashboardId })
             .then(response => {
                 setTodolists([...todolists, { ...response.data, todos: [] }]);
                 setNewTodolistName('');
@@ -136,7 +136,24 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                 setLayouts((prevLayouts) => {
                     const newLayouts = { ...prevLayouts };
                     Object.keys(newLayouts).forEach((key) => {
-                        newLayouts[key] = newLayouts[key].filter(item => item.notepadId !== notepadId);
+                        newLayouts[key] = newLayouts[key].filter(item => item.widgetId !== notepadId);
+                    });
+                    return newLayouts;
+                });
+            })
+            .catch(error => {
+                console.error('Error removing notepad:', error);
+                alert('Error removing notepad. Please try again.');
+            });
+    };
+    const removeTodoList = (todoListId) => {
+        axios.delete(`https://localhost:7287/todolist/${todoListId}`)
+            .then(() => {
+                setTodolists(todolists.filter(todoList => todoList.id !== todoListId));
+                setLayouts((prevLayouts) => {
+                    const newLayouts = { ...prevLayouts };
+                    Object.keys(newLayouts).forEach((key) => {
+                        newLayouts[key] = newLayouts[key].filter(item => item.widgetId !== todoListId);
                     });
                     return newLayouts;
                 });
@@ -147,18 +164,18 @@ const DashboardDetail = ({ isSidebarOpen }) => {
             });
     };
 
-    const addWidget = (widgetType, notepadId = null, notepadName = '') => {
+    const addWidget = (widgetType, widgetId = null, widgetName = '') => {
         if (!widgetType) return;
 
         const newWidget = {
-            i: `widget${widgetCounter}-${widgetType}-${notepadId || ''}`,
+            i: `widget${widgetCounter}-${widgetType}-${widgetId || ''}`,
             x: (layouts.xlg.length % cols.xlg),
             y: Infinity, // puts it at the bottom
             w: 1,
             h: 2,
             type: widgetType,
-            notepadId: notepadId,
-            notepadName: notepadName,
+            widgetId: widgetId,
+            widgetName: widgetName,
         };
 
         setLayouts((prevLayouts) => {
@@ -230,13 +247,17 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                                 <div className="grid-item__content">
                                     {item.type === 'todolist' ? (
                                         <Suspense fallback={<div>Loading...</div>}>
-                                            <TodoList id={item.notepadId} name={item.notepadName}/>   
+                                            <TodoList 
+                                                id={item.widgetId} 
+                                                name={item.widgetName}
+                                                removeTodoList={removeTodoList}
+                                            />   
                                         </Suspense>
                                     ) : item.type === 'notepad' ? (
                                         <Suspense fallback={<div>Loading...</div>}>
                                             <NotepadComponent
                                                 dashboardId={dashboardId}
-                                                notepadId={item.notepadId}
+                                                notepadId={item.widgetId}
                                                 removeNotepad={removeNotepad}
                                             />
                                         </Suspense>

@@ -1,4 +1,5 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using tf_api.DBContexts;
 using tf_api.Models;
@@ -26,32 +27,20 @@ namespace tf_api.Endpoints
                 .Produces<List<TodoList>>(StatusCodes.Status200OK)
                 .Produces(StatusCodes.Status404NotFound);
 
-            app.MapPost("/todolist/{todoListId}/todos", async (int todoListId, Todo todo, TaskFlowDBContext db) =>
-            {
-                var todolist = await db.TodoLists
-                    .Where(td => td.Id == todoListId)
-                    .FirstOrDefaultAsync();
-                if (todolist is null)
-                {
-                    return Results.NotFound();
-                }
+            app.MapPost("/todolist/{todoListId}/todos", AddTodoItemToListasync)
+                .WithName("Create todo")
+                .WithSummary("Create a new todo for a Todolist")
+                .WithDescription("Create a new todo for a specific todoList in a specific dashboard and return the created todo")
+                .WithTags("Todolist")
+                .Produces<Todo>(StatusCodes.Status201Created)
+                .Produces(StatusCodes.Status404NotFound);
 
-                todo.IsDone = false;
-                todo.TodoListId = todoListId;
-                db.Todos.Add(todo);
-                await db.SaveChangesAsync();
-                return Results.Created($"/todolist/{todoListId}/todos/{todo.Id}", todo);
-            })
-            .WithName("Create todo")
-            .WithSummary("Create a new todo for a Todolist")
-            .WithDescription("Create a new todo for a specific todoList in a specific dashboard and return the created todo")
-            .WithTags("Todolist")
-            .Produces<Todo>(StatusCodes.Status201Created)
-            .Produces(StatusCodes.Status404NotFound);
-
+            app.MapPost("/todolist", AddTodoList)
+                .WithTags("Todolist");
+            
             app.MapDelete("/todolist/{id}", DeleteListById)
                 .WithName("Delet Todolist")
-                .WithSummary("Deletes a Todo list")
+                .WithSummary("Deletes a Todolist")
                 .WithDescription("Removes a whole list of Todos")
                 .WithTags("Todolist")
                 .Produces(StatusCodes.Status204NoContent)
@@ -122,6 +111,28 @@ namespace tf_api.Endpoints
             db.Todos.Remove(todo);
             await db.SaveChangesAsync();
             return Results.NoContent();
+        }
+        private static async Task<IResult> AddTodoItemToListasync(int todoListId, Todo todo, TaskFlowDBContext db)
+        {
+            var todolist = await db.TodoLists
+                .Where(td => td.Id == todoListId)
+                .FirstOrDefaultAsync();
+            if (todolist is null)
+            {
+                return Results.NotFound();
+            }
+
+            todo.IsDone = false;
+            todo.TodoListId = todoListId;
+            db.Todos.Add(todo);
+            await db.SaveChangesAsync();
+            return Results.Created($"/todolist/{todoListId}/todos/{todo.Id}", todo);
+        }
+        private static async Task<IResult> AddTodoList(TodoList todoList, TaskFlowDBContext db)
+        {
+            db.TodoLists.Add(todoList);
+            await db.SaveChangesAsync();
+            return Results.Created($"/todolist/{todoList.Id}", todoList);
         }
     }
 }
