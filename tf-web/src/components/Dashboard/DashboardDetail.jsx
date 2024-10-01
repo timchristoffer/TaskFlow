@@ -63,7 +63,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
 
     useEffect(() => {
         if (dashboardId) {
-            axios.get(`https://localhost:7287/notepads`)
+            axios.get(`https://localhost:7287/notepads`, { params: { dashboardId } })
                 .then(response => {
                     setNotepads(response.data);
                     response.data.forEach(notepad => {

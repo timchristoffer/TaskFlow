@@ -10,16 +10,17 @@ namespace tf_api.Endpoints
     {
         public static void MapNotepadEndpoints(this WebApplication app)
         {
-            // Get all notepads
-            app.MapGet("/notepads", async (TaskFlowDBContext db) =>
+            // Get all notepads for a specific dashboard
+            app.MapGet("/notepads", async (int dashboardId, TaskFlowDBContext db) =>
             {
                 return await db.Notepads
+                    .Where(n => n.DashboardId == dashboardId)
                     .Include(n => n.Notes)
                     .ToListAsync();
             })
-            .WithName("GetAllNotepads")
-            .WithSummary("Get all notepads")
-            .WithDescription("Retrieve a list of all notepads including their notes")
+            .WithName("GetNotepadsForDashboard")
+            .WithSummary("Get all notepads for a specific dashboard")
+            .WithDescription("Retrieve a list of all notepads for a specific dashboard including their notes")
             .WithTags("Notepads")
             .Produces<List<Notepad>>(StatusCodes.Status200OK);
 
