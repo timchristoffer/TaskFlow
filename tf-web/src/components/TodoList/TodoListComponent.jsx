@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import './TodoStyles.css';
 import axios from 'axios';
 
-const TodoList = (props) => {
+const TodoList = ({id, name, removeTodoList}) => {
   const [todoList, setTodoList] = useState({});
   const [newTodo, setNewTodo] = useState('');
 
   useEffect(() => {
     const getData = async () => {
       try {
-        const response = await axios.get(`https://localhost:7287/todolist/${props.id}`);
+        const response = await axios.get(`https://localhost:7287/todolist/${id}`);
         console.log("Response data:", response.data);
         setTodoList(response.data);
       } catch (error) {
@@ -19,7 +19,7 @@ const TodoList = (props) => {
     };
     
     getData();
-  }, [props.id]);
+  }, [id]);
 
   const createTodo = () => {
     if (!newTodo.trim()) {
@@ -27,7 +27,7 @@ const TodoList = (props) => {
       return;
     }
 
-    axios.post(`https://localhost:7287/todolist/${props.id}/todos`, { description: newTodo })
+    axios.post(`https://localhost:7287/todolist/${id}/todos`, { description: newTodo })
       .then(response => {
         console.log('Created todo:', response.data);
         setTodoList(prevTodoList => ({
@@ -43,10 +43,10 @@ const TodoList = (props) => {
 
   };
 
-  const handleCheckboxChange = async (id) => {
+  const handleCheckboxChange = async (checked) => {
     try {
       // Skicka PUT-begäran till backend
-      await axios.put(`https://localhost:7287/todolist/${props.id}/todo/${id}`, {
+      await axios.put(`https://localhost:7287/todolist/${id}/todo/${checked}`, {
         isDone: !todoList.todos.find(todo => todo.id === id).isDone
       });
   
@@ -78,7 +78,7 @@ const TodoList = (props) => {
 
   const todos = todoList.todos && todoList.todos.length > 0 ? (
     todoList.todos.map((todo) => (
-      <li key={todo.id} style={{ color: todo.isDone ? 'gray' : 'white' }}>
+      <li className='todoItem' key={todo.id} style={{ color: todo.isDone ? 'gray' : 'white' }}>
         <input
           type='checkbox'
           checked={todo.isDone}
@@ -96,7 +96,7 @@ const TodoList = (props) => {
 
   return (
     <div className="TodoList">
-      <h2>{props.name}</h2>
+      <h2>{name}</h2>
       <div className="newTodo">
         <textarea
           value={newTodo}
@@ -108,7 +108,11 @@ const TodoList = (props) => {
       <ul>
         {todos}
       </ul>
+      <div className="notepad-footer">
+        <button className="remove-todolist-button" onClick={() => removeTodoList(id)}>Remove Todolist</button>
+      </div>
     </div>
+    
   );
 };
 
