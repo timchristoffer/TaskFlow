@@ -50,5 +50,6 @@ app.UseCors("AllowAllOrigins");
 app.MapDashboardEndpoints();
 app.MapTodoListEndpoints();
 app.MapNotepadEndpoints();
+app.MapBudgetListEndpoints();
 
 app.Run();

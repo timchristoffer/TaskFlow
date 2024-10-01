@@ -43,10 +43,10 @@ const TodoList = ({id, name, removeTodoList}) => {
 
   };
 
-  const handleCheckboxChange = async (checked) => {
+  const handleCheckboxChange = async (id) => {
     try {
       // Skicka PUT-begäran till backend
-      await axios.put(`https://localhost:7287/todolist/${id}/todo/${checked}`, {
+      await axios.put(`https://localhost:7287/todolist/${id}/todo/${id}`, {
         isDone: !todoList.todos.find(todo => todo.id === id).isDone
       });
   
