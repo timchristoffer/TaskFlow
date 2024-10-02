@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using tf_api.DBContexts; // För att använda DBContexts
-using tf_api.Endpoints; // För att använda Endpoints;
+using tf_api.DBContexts; 
+using tf_api.Endpoints; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,13 +19,13 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// Lägg till CORS-konfiguration
+// Lï¿½gg till CORS-konfiguration
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
         builder => builder.AllowAnyOrigin()
-                         .AllowAnyMethod() // Tillåt alla metoder
-                         .AllowAnyHeader()); // Tillåt alla headers
+                         .AllowAnyMethod() 
+                         .AllowAnyHeader()); 
 });
 
 var app = builder.Build();
