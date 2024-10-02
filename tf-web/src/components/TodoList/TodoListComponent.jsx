@@ -78,7 +78,10 @@ const TodoList = ({id, name, removeTodoList}) => {
 
   const todos = todoList.todos && todoList.todos.length > 0 ? (
     todoList.todos.map((todo) => (
-      <li className='todoItem' key={todo.id} style={{ color: todo.isDone ? 'gray' : 'white' }}>
+      <li className='todoItem' 
+        key={todo.id} 
+        style={{ color: todo.isDone ? 'gray' : 'white', textDecoration: todo.isDone ? 'line-through' : 'none' }}>
+
         <input
           type='checkbox'
           checked={todo.isDone}
