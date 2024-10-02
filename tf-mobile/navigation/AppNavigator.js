@@ -13,7 +13,15 @@ const AppNavigator = () => {
         <NavigationContainer>
             <Stack.Navigator initialRouteName="DashboardCreate">
                 <Stack.Screen name="DashboardCreate" component={DashboardCreate} />
+
                 <Stack.Screen name="DashboardView" component={DashboardView} />
+
+                <Stack.Screen name="Home" component={DashboardCreate} />
+                <Stack.Screen name="Dashboards" component={DashboardCreate} />
+                <Stack.Screen name="Profile" component={DashboardCreate} />
+                <Stack.Screen name="Logout" component={DashboardCreate} />
+
+
                 {/* <Stack.Screen name="DashboardDetail" component={DashboardDetail} /> */}
             </Stack.Navigator>
         </NavigationContainer>

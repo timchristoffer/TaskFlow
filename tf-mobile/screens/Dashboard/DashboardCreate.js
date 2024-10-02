@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList, TouchableOpacity, Alert, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, Button, FlatList, TouchableOpacity, Alert, StyleSheet, Image } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-
+import MobileMenu from '../../components/Menu/MobileMenu';
 
 axios.interceptors.request.use(request => {
     console.log('Starting Request', request);
@@ -51,47 +51,69 @@ const DashboardCreate = () => {
         }
     };
 
+    const handleDeleteDashboard = async (id) => {
+        console.log("Deleting dashboard with id:", id);
+        try {
+            await axios.delete(`http://192.168.0.15:5000/dashboards/${id}`);
+            setDashboards(dashboards.filter(dashboard => dashboard.id !== id));
+        } catch (error) {
+            console.error('Error deleting dashboard:', error);
+            Alert.alert("Failed to delete dashboard");
+        }
+    };
+
     return (
-        <ScrollView style={styles.scrollView}>
-            <View style={styles.dashboardContent}>
-                <View style={styles.dashboardContainer}>
-                    <Text style={styles.title}>Create Dashboard</Text>
-                    <View style={styles.form}>
-                        <TextInput
-                            style={styles.input}
-                            value={name}
-                            onChangeText={setName}
-                            placeholder="Dashboard Name"
-                            required
-                        />
-                        <Button title="Create" onPress={handleCreateDashboard} />
+        <View style={styles.container}>
+            <FlatList
+                ListHeaderComponent={
+                    <View style={styles.dashboardContent}>
+                        <View style={styles.dashboardContainer}>
+                            <Text style={styles.title}>Create Dashboard</Text>
+                            <View style={styles.form}>
+                                <TextInput
+                                    style={styles.input}
+                                    value={name}
+                                    onChangeText={setName}
+                                    placeholder="Dashboard Name"
+                                    required
+                                />
+                                <Button title="Create" onPress={handleCreateDashboard} />
+                            </View>
+                            {message ? <Text>{message}</Text> : null}
+                            <Text style={styles.subtitle}>Dashboards</Text>
+                        </View>
                     </View>
 
-                    {message ? <Text>{message}</Text> : null}
+                }
+                data={dashboards}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                    <View style={styles.dashboardItemContainer}>
+                        <TouchableOpacity onPress={() => navigation.navigate('DashboardView', { id: item.id, name: item.name })}>
+                            <Text style={styles.dashboardItem}>{item.name}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleDeleteDashboard(item.id)}>
+                            <Image source={require('../../assets/Icons/delete.png')} style={[styles.deleteIcon, { tintColor: 'red' }]} />
+                        </TouchableOpacity>
+                    </View>
+                )}
+                ListEmptyComponent={<Text>No dashboards available</Text>}
+                contentContainerStyle={styles.flatListContent}
+            />
+            <MobileMenu />
+        </View>
 
-                    <Text style={styles.subtitle}>Dashboards</Text>
-                    <FlatList
-                        data={dashboards}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() => navigation.navigate('DashboardView', { id: item.id, name: item.name })}>
-                                <Text style={styles.dashboardItem}>{item.name}</Text>
-                            </TouchableOpacity>
-                        )}
-                        ListEmptyComponent={<Text>No dashboards available</Text>} 
-                    />
-                </View>
-            </View>
-        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
-    scrollView: {
+    container: {
         flex: 1,
     },
+    flatListContent: {
+        paddingBottom: 60, // Lägg till padding för att skapa utrymme för menyn
+    },
     dashboardContent: {
-        flex: 1,
         padding: 20,
     },
     dashboardContainer: {
@@ -117,11 +139,21 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 20,
     },
-    dashboardItem: {
+    dashboardItemContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         padding: 10,
         borderBottomColor: '#ccc',
         borderBottomWidth: 1,
+    },
+    dashboardItem: {
         color: '#187977',
+    },
+    deleteIcon: {
+        width: 24,
+        height: 24,
+        tintColor: 'red',
     },
 });
 

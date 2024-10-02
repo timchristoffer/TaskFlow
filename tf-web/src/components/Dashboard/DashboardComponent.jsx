@@ -36,32 +36,46 @@ const DashboardComponent = ({ isSidebarOpen }) => {
         }
     };
 
+    const handleDeleteDashboard = async (id) => {
+        console.log("Deleting dashboard with id:", id);
+        try {
+            await axios.delete(`https://localhost:7287/dashboards/${id}`);
+            setDashboards(dashboards.filter(dashboard => dashboard.id !== id));
+        } catch (error) {
+            console.error('Error deleting dashboard:', error);
+            alert("Failed to delete dashboard");
+        }
+    };
+
     return (
         <div className={`dashboard-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <div className='dashboard-container'>
-            <h2>Create Dashboard</h2>
-            <form className="dashboard-form" onSubmit={handleCreateDashboard}>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Dashboard Name"
-                    required
-                />
-                <button type="submit">Create</button>
-            </form>
+                <h2>Create Dashboard</h2>
+                <form className="dashboard-form" onSubmit={handleCreateDashboard}>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Dashboard Name"
+                        required
+                    />
+                    <button type="submit">Create</button>
+                </form>
 
-            {message && <p>{message}</p>}
+                {message && <p>{message}</p>}
 
-            <h3>Dashboards</h3>
-            <ul className="dashboard-list">
-                {dashboards.map((dashboard) => (
-                    <li key={dashboard.id}>
-                        <Link to={`/dashboard/${dashboard.id}`}>{dashboard.name}</Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
+                <h3>Dashboards</h3>
+                <ul className="dashboard-list">
+                    {dashboards.map((dashboard) => (
+                        <li key={dashboard.id} className="dashboard-item">
+                            <Link to={`/dashboard/${dashboard.id}`}>{dashboard.name}</Link>
+                            <button onClick={() => handleDeleteDashboard(dashboard.id)} className="delete-button">
+                                <img src="/Icons/delete.svg" alt="Delete" className="delete-icon" />
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 };
