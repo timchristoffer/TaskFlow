@@ -64,7 +64,7 @@ const DashboardCreate = () => {
 
     return (
         <View style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <View contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.dashboardContent}>
                     <View style={styles.dashboardContainer}>
                         <Text style={styles.title}>Create Dashboard</Text>
@@ -100,7 +100,7 @@ const DashboardCreate = () => {
                     contentContainerStyle={styles.flatListContent}
                     style={styles.flatList}
                 />
-            </ScrollView>
+            </View>
             <MobileMenu />
         </View>
     );
