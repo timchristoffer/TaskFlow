@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList, TouchableOpacity, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, FlatList, TouchableOpacity, Alert, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+
+
+axios.interceptors.request.use(request => {
+    console.log('Starting Request', request);
+    return request;
+});
+
+axios.interceptors.response.use(response => {
+    console.log('Response:', response);
+    return response;
+}, error => {
+    console.log('Error:', error);
+    return Promise.reject(error);
+});
 
 const DashboardCreate = () => {
     const [name, setName] = useState('');
@@ -12,8 +26,8 @@ const DashboardCreate = () => {
     useEffect(() => {
         const fetchDashboards = async () => {
             try {
-                const response = await axios.get('https://192.168.0.15:7287/dashboards');
-                console.log('API response:', response.data); // Logga API-svaret
+                const response = await axios.get('http://192.168.0.15:5000/dashboards'); 
+                console.log('API response:', response.data); 
                 setDashboards(response.data);
             } catch (error) {
                 console.error('Error fetching dashboards:', error);
@@ -27,8 +41,8 @@ const DashboardCreate = () => {
     const handleCreateDashboard = async () => {
         console.log("Creating dashboard with name:", name);
         try {
-            const response = await axios.post('https://192.168.0.15:7287/dashboards', { name });
-            console.log("Response:", response.data); // Logga API-svaret
+            const response = await axios.post('http://192.168.0.15:5000/dashboards', { name }); 
+            console.log("Response:", response.data); 
             setDashboards([...dashboards, response.data]);
             setName('');
         } catch (error) {
@@ -38,39 +52,44 @@ const DashboardCreate = () => {
     };
 
     return (
-        <View style={styles.dashboardContent}>
-            <View style={styles.dashboardContainer}>
-                <Text style={styles.title}>Create Dashboard</Text>
-                <View style={styles.form}>
-                    <TextInput
-                        style={styles.input}
-                        value={name}
-                        onChangeText={setName}
-                        placeholder="Dashboard Name"
-                        required
+        <ScrollView style={styles.scrollView}>
+            <View style={styles.dashboardContent}>
+                <View style={styles.dashboardContainer}>
+                    <Text style={styles.title}>Create Dashboard</Text>
+                    <View style={styles.form}>
+                        <TextInput
+                            style={styles.input}
+                            value={name}
+                            onChangeText={setName}
+                            placeholder="Dashboard Name"
+                            required
+                        />
+                        <Button title="Create" onPress={handleCreateDashboard} />
+                    </View>
+
+                    {message ? <Text>{message}</Text> : null}
+
+                    <Text style={styles.subtitle}>Dashboards</Text>
+                    <FlatList
+                        data={dashboards}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity onPress={() => navigation.navigate('DashboardDetail', { id: item.id })}>
+                                <Text style={styles.dashboardItem}>{item.name}</Text>
+                            </TouchableOpacity>
+                        )}
+                        ListEmptyComponent={<Text>No dashboards available</Text>} 
                     />
-                    <Button title="Create" onPress={handleCreateDashboard} />
                 </View>
-
-                {message ? <Text>{message}</Text> : null}
-
-                <Text style={styles.subtitle}>Dashboards</Text>
-                <FlatList
-                    data={dashboards}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity onPress={() => navigation.navigate('DashboardDetail', { id: item.id })}>
-                            <Text style={styles.dashboardItem}>{item.name}</Text>
-                        </TouchableOpacity>
-                    )}
-                    ListEmptyComponent={<Text>No dashboards available</Text>} // Lägg till en tom lista-komponent
-                />
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
+    scrollView: {
+        flex: 1,
+    },
     dashboardContent: {
         flex: 1,
         padding: 20,
