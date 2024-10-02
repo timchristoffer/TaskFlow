@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './BudgetList.css';
 
 const BudgetList = (props) => {
-    const [products, setProducts] = useState([]);
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState('');
     const [budgetList, setBudgetList] = useState({});
-    const [newItem, setNewItem] = useState('');
 
     useEffect(() => {
         const getData = async () => {
@@ -73,29 +72,29 @@ const BudgetList = (props) => {
 
     return (
         <div>
-            <div>
+            <div className='inputDiv'>
                 <input
+                    className="textInput"
                     type="text"
                     placeholder="Product Name"
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
                 />
                 <input
+                    className="numberInput"
                     type="number"
                     placeholder="Price"
                     value={productPrice}
                     onChange={(e) => setProductPrice(e.target.value)}
                 />
-                <button onClick={addProduct}>Add Product</button>
+                <button className='addProductButton' onClick={addProduct}>Add Product</button>
             </div>
             <div className='productList'>
                 <h4>Product List:</h4>
                 <ul>
                     {budgetItems}
                 </ul>
-            </div>
-            <div>
-               <h4>Total: {totalSum}kr</h4>
+                <h4>Total: {totalSum}kr</h4>
             </div>
         </div>
     );

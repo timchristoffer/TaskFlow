@@ -1,0 +1,39 @@
+.inputDiv,
+.productList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.textInput,
+.numberInput {
+    padding: 8px;
+    margin: 8px 0;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.addProductButton {
+    padding: 8px 16px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.addProductButton:hover{
+    background-color: #0f5553;
+}
+
+.productList li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.productList ul {
+    list-style-type: none;
+    padding: 0;
+}
