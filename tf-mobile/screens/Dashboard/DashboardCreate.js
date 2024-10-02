@@ -26,7 +26,7 @@ const DashboardCreate = () => {
     useEffect(() => {
         const fetchDashboards = async () => {
             try {
-                const response = await axios.get('http://192.168.0.15:5000/dashboards'); 
+                const response = await axios.get('http://192.168.10.230:5000/dashboards'); 
                 console.log('API response:', response.data); 
                 setDashboards(response.data);
             } catch (error) {
@@ -41,7 +41,7 @@ const DashboardCreate = () => {
     const handleCreateDashboard = async () => {
         console.log("Creating dashboard with name:", name);
         try {
-            const response = await axios.post('http://192.168.0.15:5000/dashboards', { name }); 
+            const response = await axios.post('http://192.168.10.230:5000/dashboards', { name }); 
             console.log("Response:", response.data); 
             setDashboards([...dashboards, response.data]);
             setName('');
@@ -83,12 +83,13 @@ const DashboardCreate = () => {
                             <Text style={styles.subtitle}>Dashboards</Text>
                         </View>
                     </View>
+
                 }
                 data={dashboards}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.dashboardItemContainer}>
-                        <TouchableOpacity onPress={() => navigation.navigate('DashboardView', { id: item.id })}>
+                        <TouchableOpacity onPress={() => navigation.navigate('DashboardView', { id: item.id, name: item.name })}>
                             <Text style={styles.dashboardItem}>{item.name}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => handleDeleteDashboard(item.id)}>
@@ -101,6 +102,7 @@ const DashboardCreate = () => {
             />
             <MobileMenu />
         </View>
+
     );
 };
 
