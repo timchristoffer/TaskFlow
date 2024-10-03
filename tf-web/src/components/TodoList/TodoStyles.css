@@ -1,0 +1,50 @@
+.TodoList{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.newTodo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.newTodo > button{
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  max-width: 120px;
+  margin-top: 10px;
+}
+
+.TodoList > ul{
+  background-color: var(--background);
+  border: 1px solid var(--secondary-text);
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 8px;
+  color: var(--text);
+  list-style: none;
+  width: 80%;
+}
+
+.todoItem{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove-todolist-button{
+  background-color: #dc3545;
+  color: var(--text);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}

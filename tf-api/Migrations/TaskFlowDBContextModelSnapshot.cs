@@ -82,13 +82,57 @@ namespace tf_api.Migrations
                     b.ToTable("Dashboards");
                 });
 
-            modelBuilder.Entity("tf_api.Models.Todo", b =>
+            modelBuilder.Entity("tf_api.Models.Note", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("NotepadId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NotepadId");
+
+                    b.ToTable("Notes");
+                });
+
+            modelBuilder.Entity("tf_api.Models.Notepad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DashboardId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DashboardId");
+
+                    b.ToTable("Notepads");
+                });
+
+            modelBuilder.Entity("tf_api.Models.Todo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -100,7 +144,7 @@ namespace tf_api.Migrations
                     b.Property<int?>("TodoListId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("TodoListId");
 
@@ -117,6 +161,10 @@ namespace tf_api.Migrations
 
                     b.Property<int?>("DashboardId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -137,6 +185,24 @@ namespace tf_api.Migrations
                     b.HasOne("tf_api.Models.Dashboard", null)
                         .WithMany("BudgetLists")
                         .HasForeignKey("DashboardId");
+                });
+
+            modelBuilder.Entity("tf_api.Models.Note", b =>
+                {
+                    b.HasOne("tf_api.Models.Notepad", null)
+                        .WithMany("Notes")
+                        .HasForeignKey("NotepadId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("tf_api.Models.Notepad", b =>
+                {
+                    b.HasOne("tf_api.Models.Dashboard", null)
+                        .WithMany("Notepads")
+                        .HasForeignKey("DashboardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("tf_api.Models.Todo", b =>
@@ -162,7 +228,14 @@ namespace tf_api.Migrations
                 {
                     b.Navigation("BudgetLists");
 
+                    b.Navigation("Notepads");
+
                     b.Navigation("TodoLists");
+                });
+
+            modelBuilder.Entity("tf_api.Models.Notepad", b =>
+                {
+                    b.Navigation("Notes");
                 });
 
             modelBuilder.Entity("tf_api.Models.TodoList", b =>

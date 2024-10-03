@@ -2,8 +2,9 @@
 {
     public class Todo
     {
-        public int ID { get; set; }
-        public string Description { get; set; }
+        public int Id { get; set; }
+        public int TodoListId { get; set; }
+        public string? Description { get; set; }
         public bool IsDone { get; set; }
     }
 }

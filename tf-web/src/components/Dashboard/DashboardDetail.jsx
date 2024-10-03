@@ -1,63 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, lazy, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import { WidthProvider, Responsive } from 'react-grid-layout';
+import axios from 'axios';
+import TodoList from '../TodoList/TodoListComponent';
+import BudgetList from '../BudgetList/BudgetList';
+
 import './Dashboard.css';
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const DashboardDetail = () => {
-    const { dashboardName } = useParams();
-    const [layouts, setLayouts] = useState(getInitialLayouts());
+// Dynamisk import av NotepadComponent
+const NotepadComponent = lazy(() => import('../Notepad/NotepadComponent'));
+
+const getCols = (width) => {
+    return {
+        xlg: width >= 5000 ? 5 : 4,
+        lg: width >= 1224 ? 5 : 3,
+        md: width >= 768 ? 3 : 2,
+        sm: 1,
+        xs: 1,
+        xxs: 1,
+    };
+};
+
+const DashboardDetail = ({ isSidebarOpen }) => {
+    const { dashboardId } = useParams();
+    const [layouts, setLayouts] = useState({ xlg: [], lg: [], md: [], sm: [], xs: [], xxs: [] });
     const [cols, setCols] = useState(getCols(window.innerWidth));
-
-    function getCols(width) {
-        return {
-            lg: width >= 1024 ? 4 : 3,
-            md: width >= 768 ? 3 : 2,
-            sm: 1,
-            xs: 1,
-            xxs: 1,
-        };
-    }
-
-    function getInitialLayouts() {
-        const savedLayouts = JSON.parse(localStorage.getItem('dashboard-layouts'));
-        return savedLayouts || {
-            lg: [
-                { i: 'widget1', x: 0, y: 0, w: 1, h: 2 },
-                { i: 'widget2', x: 1, y: 0, w: 1, h: 2 },
-                { i: 'widget3', x: 2, y: 0, w: 1, h: 2 },
-                { i: 'widget4', x: 3, y: 0, w: 1, h: 2 },
-                { i: 'widget5', x: 0, y: 1, w: 1, h: 2 },
-                { i: 'widget6', x: 1, y: 1, w: 1, h: 2 },
-            ],
-            md: [],
-            sm: [
-                { i: 'widget1', x: 0, y: 0, w: 1, h: 3 },
-                { i: 'widget2', x: 0, y: 1, w: 1, h: 3 },
-                { i: 'widget3', x: 0, y: 2, w: 1, h: 3 },
-                { i: 'widget4', x: 0, y: 3, w: 1, h: 3 },
-                { i: 'widget5', x: 0, y: 4, w: 1, h: 3 },
-                { i: 'widget6', x: 0, y: 5, w: 1, h: 3 },
-            ],
-            xs: [
-                { i: 'widget1', x: 0, y: 0, w: 1, h: 4 },
-                { i: 'widget2', x: 0, y: 1, w: 1, h: 4 },
-                { i: 'widget3', x: 0, y: 2, w: 1, h: 4 },
-                { i: 'widget4', x: 0, y: 3, w: 1, h: 4 },
-                { i: 'widget5', x: 0, y: 4, w: 1, h: 4 },
-                { i: 'widget6', x: 0, y: 5, w: 1, h: 4 },
-            ],
-            xxs: [
-                { i: 'widget1', x: 0, y: 0, w: 1, h: 5 },
-                { i: 'widget2', x: 0, y: 1, w: 1, h: 5 },
-                { i: 'widget3', x: 0, y: 2, w: 1, h: 5 },
-                { i: 'widget4', x: 0, y: 3, w: 1, h: 5 },
-                { i: 'widget5', x: 0, y: 4, w: 1, h: 5 },
-                { i: 'widget6', x: 0, y: 5, w: 1, h: 5 },
-            ],
-        };
-    }
+    const [dashboard, setDashboard] = useState(null);
+    const [newNotepadName, setNewNotepadName] = useState('');
+    const [notepads, setNotepads] = useState([]);
+    const [widgetCounter, setWidgetCounter] = useState(1);
+    const [todolists, setTodolists] = useState([]);
+    const [newTodolistName, setNewTodolistName] = useState('');
+    const [budgetLists, setBudgetLists] = useState([]);
+    const [newBudgetListName, setNewBudgetListName] = useState('');
 
     useEffect(() => {
         const handleResize = () => {
@@ -71,6 +48,184 @@ const DashboardDetail = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const fetchDashboard = async () => {
+            try {
+                const response = await axios.get(`https://localhost:7287/dashboards/${dashboardId}`);
+                setDashboard(response.data);
+            } catch (error) {
+                console.error('Error fetching dashboard:', error);
+                alert("Failed to fetch dashboard");
+            }
+        };
+
+        fetchDashboard();
+    }, [dashboardId]);
+
+    useEffect(() => {
+        if (dashboardId) {
+            axios.get(`https://localhost:7287/notepads`, { params: { dashboardId } })
+                .then(response => {
+                    setNotepads(response.data);
+                    response.data.forEach(notepad => {
+                        addWidget('notepad', notepad.id, notepad.name);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching notepads:', error);
+                });
+        }
+    }, [dashboardId]);
+
+    useEffect(() => {
+        if (dashboardId) {
+            axios.get(`https://localhost:7287/todolists`, { params:  {dashboardId} })
+                .then(response => {
+                    setTodolists(response.data);
+                    response.data.forEach(todoList => {
+                        addWidget('todolist', todoList.id, todoList.name);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching TodoLists:', error);
+                });
+        }
+    }, [dashboardId]);
+
+    useEffect(() => {
+        if (dashboardId) {
+            axios.get(`https://localhost:7287/budgetLists`, { params: {dashboardId} })
+                .then(response => {
+                    setBudgetLists(response.data);
+                    response.data.forEach(budgetList => {
+                        addWidget('budgetlist', budgetList.id, budgetList.name);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching BudgetLists:', error);
+                });
+        }
+    }, [dashboardId]);
+
+    const dashTodos = todolists.map(td =>  
+        <TodoList key={td.id} id={td.id} name={td.name}/>
+    );
+
+    const createNotepad = (name) => {
+        if (!name.trim()) {
+            alert('Notepad name cannot be empty.');
+            return;
+        }
+
+        axios.post(`https://localhost:7287/notepads`, { name, dashboardId })
+            .then(response => {
+                setNotepads([...notepads, { ...response.data, notes: [] }]);
+                setNewNotepadName(''); 
+                addWidget('notepad', response.data.id, response.data.name);
+            })
+            .catch(error => {
+                console.error('Error creating notepad:', error);
+                alert('Error creating notepad. Please try again.');
+            });
+    };
+
+    const createTodolist = (name) => {
+        if (!name.trim()) {
+            alert('Todo list name cannot be empty.');
+            return;
+        }
+
+        axios.post(`https://localhost:7287/todolist`, { name, dashboardId })
+            .then(response => {
+                setTodolists([...todolists, { ...response.data, todos: [] }]);
+                setNewTodolistName('');
+                addWidget('todolist', response.data.id, response.data.name);
+            })
+            .catch(error => {
+                console.error('Error creating todolist:', error);
+                alert('Error creating todolist. Please try again.');
+            });
+    };
+
+    const createBudgetList = (name) => {
+        if (!name.trim()) {
+            alert('Budget list name cannot be empty.');
+            return;
+        }
+
+        axios.post(`https://localhost:7287/budgetLists`, { name, dashboardId })
+            .then(response => {
+                setBudgetLists([...budgetLists, { ...response.data, items: [] }]);
+                setNewBudgetListName('');
+                addWidget('budgetlist', response.data.id, response.data.name);
+            })
+            .catch(error => {
+                console.error('Error creating budget list:', error);
+                alert('Error creating budget list. Please try again.');
+            });
+    };
+
+    const removeNotepad = (notepadId) => {
+        axios.delete(`https://localhost:7287/notepads/${notepadId}`)
+            .then(() => {
+                setNotepads(notepads.filter(notepad => notepad.id !== notepadId));
+                setLayouts((prevLayouts) => {
+                    const newLayouts = { ...prevLayouts };
+                    Object.keys(newLayouts).forEach((key) => {
+                        newLayouts[key] = newLayouts[key].filter(item => item.widgetId !== notepadId);
+                    });
+                    return newLayouts;
+                });
+            })
+            .catch(error => {
+                console.error('Error removing notepad:', error);
+                alert('Error removing notepad. Please try again.');
+            });
+    };
+
+    const removeTodoList = (todoListId) => {
+        axios.delete(`https://localhost:7287/todolist/${todoListId}`)
+            .then(() => {
+                setTodolists(todolists.filter(todoList => todoList.id !== todoListId));
+                setLayouts((prevLayouts) => {
+                    const newLayouts = { ...prevLayouts };
+                    Object.keys(newLayouts).forEach((key) => {
+                        newLayouts[key] = newLayouts[key].filter(item => item.widgetId !== todoListId);
+                    });
+                    return newLayouts;
+                });
+            })
+            .catch(error => {
+                console.error('Error removing notepad:', error);
+                alert('Error removing notepad. Please try again.');
+            });
+    };
+
+    const addWidget = (widgetType, widgetId = null, widgetName = '') => {
+        if (!widgetType) return;
+
+        const newWidget = {
+            i: `widget${widgetCounter}-${widgetType}-${widgetId || ''}`,
+            x: (layouts.xlg.length % cols.xlg),
+            y: Infinity, // puts it at the bottom
+            w: 1,
+            h: 2,
+            type: widgetType,
+            widgetId: widgetId,
+            widgetName: widgetName,
+        };
+
+        setLayouts((prevLayouts) => {
+            const newLayouts = { ...prevLayouts };
+            Object.keys(newLayouts).forEach((key) => {
+                newLayouts[key] = [...newLayouts[key], newWidget];
+            });
+            return newLayouts;
+        });
+
+        setWidgetCounter(widgetCounter + 1);
+    };
+
     const handleLayoutChange = (newLayout, allLayouts) => {
         setLayouts(allLayouts);
         localStorage.setItem('dashboard-layouts', JSON.stringify(allLayouts));
@@ -81,10 +236,29 @@ const DashboardDetail = () => {
         setCols(newCols);
     };
 
+    const handleAddWidget = (e) => {
+        const widgetType = e.target.value;
+        if (widgetType === 'notepad') {
+            createNotepad('New Notepad');
+        } else if (widgetType === 'todolist') {
+            createTodolist('New Todolist');
+        } else if (widgetType === 'budgetlist') {
+            createBudgetList('New Budget List');
+        }
+    };
+
     return (
-        <div className='dashboard'>
+        <div className={`dashboard-content ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <div className='dashboard-container'>
-                <h2 className="dashboard-title">{dashboardName}</h2>
+                <h2 className="dashboard-title">{dashboard ? dashboard.name : 'Loading...'}</h2>
+                <div className='dropdown-container'>
+                    <select className='dropdown' onChange={handleAddWidget}>
+                        <option value="">Add Widget</option>
+                        <option value="notepad">Notepad</option>
+                        <option value="todolist">Todo List</option>
+                        <option value="budgetlist">Budget List</option>
+                    </select>
+                </div>
                 <ResponsiveGridLayout
                     className="layout"
                     layouts={layouts}
@@ -95,15 +269,53 @@ const DashboardDetail = () => {
                     isResizable={true}
                     onLayoutChange={handleLayoutChange}
                     onBreakpointChange={handleBreakpointChange}
-                    breakpoints={{ lg: 1024, md: 768, sm: 480, xs: 360, xxs: 0 }}
+                    breakpoints={{ xlg: 5000, lg: 1224, md: 768, sm: 480, xs: 360, xxs: 0 }}
                     resizeHandles={['se']}
                 >
-                    {layouts.lg.map((item) => (
-                        <div key={item.i} className="grid-item">
-                            <div className="grid-item__title">Widget {item.i.replace('widget', '')}</div>
-                            <div className="grid-item__content">Content for {item.i}</div>
-                        </div>
-                    ))}
+                    {(() => {
+                        const seenIds = new Set();
+                        return layouts.xlg.filter(item => {
+                            if (seenIds.has(item.i)) {
+                                return false;
+                            } else {
+                                seenIds.add(item.i);
+                                return true;
+                            }
+                        }).map((item) => (
+                            <div key={item.i} className="grid-item">
+                                <div className="grid-item__title">{item.type || `Widget ${item.i.replace('widget', '')}`}</div>
+                                <div className="grid-item__content">
+                                    {item.type === 'todolist' ? (
+                                        <Suspense fallback={<div>Loading...</div>}>
+                                            <TodoList 
+                                                id={item.widgetId} 
+                                                name={item.widgetName}
+                                                removeTodoList={removeTodoList}
+                                            />   
+                                        </Suspense>
+                                    ) : item.type === 'notepad' ? (
+                                        <Suspense fallback={<div>Loading...</div>}>
+                                            <NotepadComponent
+                                                dashboardId={dashboardId}
+                                                notepadId={item.widgetId}
+                                                removeNotepad={removeNotepad}
+                                            />
+                                        </Suspense>
+                                    ) : item.type === 'budgetlist' ? (
+                                        <Suspense fallback={<div>Loading...</div>}>
+                                            <BudgetList
+                                                dashboardId={dashboardId}
+                                                id={item.widgetId}
+                                                name={item.widgetName}
+                                            />
+                                        </Suspense>
+                                    ) : (
+                                        `Content for ${item.i}`
+                                    )}
+                                </div>
+                            </div>
+                        ));
+                    })()}
                 </ResponsiveGridLayout>
             </div>
         </div>

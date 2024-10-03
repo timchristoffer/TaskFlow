@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using tf_api.DBContexts; // För att använda DBContexts
-using tf_api.Endpoints; // För att använda Endpoints;
+using Swashbuckle.AspNetCore.SwaggerUI;
+using tf_api.DBContexts; 
+using tf_api.Endpoints; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,14 +9,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<TaskFlowDBContext>();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new()
+    {
+        Title = "TaskFlow API",
+        Version = "v1",
+        Contact = new() { Name = "TaskKing", Email = "taskking@trams.org" }
+    });
+});
 
-// Lägg till CORS-konfiguration
+// Lï¿½gg till CORS-konfiguration
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
         builder => builder.AllowAnyOrigin()
-                         .AllowAnyMethod() // Tillåt alla metoder
-                         .AllowAnyHeader()); // Tillåt alla headers
+                         .AllowAnyMethod() 
+                         .AllowAnyHeader()); 
 });
 
 var app = builder.Build();
@@ -24,15 +34,25 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.DocExpansion(DocExpansion.List);
+        options.DefaultModelsExpandDepth(-1);
+    });
 }
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 // Aktivera CORS
 app.UseCors("AllowAllOrigins");
 
-// Här kan du definiera dina API-endpoints
+
 app.MapDashboardEndpoints();
+app.MapTodoListEndpoints();
+app.MapNotepadEndpoints();
+app.MapBudgetListEndpoints();
 
 app.Run();

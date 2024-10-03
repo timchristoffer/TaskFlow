@@ -1,0 +1,159 @@
+.notepad-widget {
+  background-color: var(--secondary-background);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  color: var(--text);
+  user-select: none;
+}
+
+.notepad-name {
+  font-size: 1.5em;
+  margin-bottom: 16px;
+  cursor: pointer;
+  color: var(--text);
+  user-select: none;
+}
+
+.notepad-name-edit input {
+  font-size: 1.5em;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--background);
+  color: var(--text);
+  border: 1px solid var(--secondary-text);
+  border-radius: 4px;
+  margin-bottom: 16px;
+  user-select: text;
+}
+
+.notepad-notes {
+  margin-bottom: 16px;
+}
+
+.notepad-notes h3 {
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.notepad-notes textarea {
+  width: 100%;
+  height: 80px;
+  padding: 8px;
+  box-sizing: border-box;
+  background-color: var(--background);
+  color: var(--text);
+  border: 1px solid var(--secondary-text);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  user-select: text; 
+}
+
+.notepad-notes button {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.notepad-notes button:hover {
+  background-color: var(--accent);
+  color: var(--secondary-text);
+}
+
+.notepad-notes-list .note {
+  background-color: var(--background);
+  border: 1px solid var(--secondary-text);
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 8px;
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notepad-notes-list .note textarea {
+  width: 100%;
+  margin-right: 8px;
+  background-color: var(--background);
+  color: var(--text);
+  border: 1px solid var(--secondary-text);
+  border-radius: 4px;
+  padding: 8px;
+  box-sizing: border-box;
+  user-select: text; 
+}
+
+.notepad-notes-list .note .note-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.notepad-notes-list .note .note-actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.notepad-notes-list .note .note-actions button img {
+  width: 24px;
+  height: 24px;
+  filter: invert(1);
+}
+
+.notepad-notes-list .note .edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.notepad-notes-list .note .edit-actions button {
+  background-color: var(--primary);
+  color: var(--text);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.notepad-notes-list .note .edit-actions button:hover {
+  background-color: var(--accent);
+  color: var(--secondary-text);
+}
+
+.notepad-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.remove-notepad-button {
+  background-color: #dc3545;
+  color: var(--text);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.remove-notepad-button:hover {
+  background-color: #c82333;
+}
+
+.note-container {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  width: 100%;
+}
+
+.note-actions {
+  display: flex; 
+  gap: 8px; 
+}
