@@ -26,7 +26,7 @@ const DashboardCreate = () => {
     useEffect(() => {
         const fetchDashboards = async () => {
             try {
-                const response = await axios.get('http://192.168.0.15:5000/dashboards'); 
+                const response = await axios.get('http://192.168.1.125:5000/dashboards'); 
                 console.log('API response:', response.data); 
                 setDashboards(response.data);
             } catch (error) {
@@ -41,7 +41,7 @@ const DashboardCreate = () => {
     const handleCreateDashboard = async () => {
         console.log("Creating dashboard with name:", name);
         try {
-            const response = await axios.post('http://192.168.0.15:5000/dashboards', { name }); 
+            const response = await axios.post('http://192.168.1.125:5000/dashboards', { name }); 
             console.log("Response:", response.data); 
             setDashboards([...dashboards, response.data]);
             setName('');
@@ -54,7 +54,7 @@ const DashboardCreate = () => {
     const handleDeleteDashboard = async (id) => {
         console.log("Deleting dashboard with id:", id);
         try {
-            await axios.delete(`http://192.168.0.15:5000/dashboards/${id}`);
+            await axios.delete(`http://192.168.1.125:5000/dashboards/${id}`);
             setDashboards(dashboards.filter(dashboard => dashboard.id !== id));
         } catch (error) {
             console.error('Error deleting dashboard:', error);
