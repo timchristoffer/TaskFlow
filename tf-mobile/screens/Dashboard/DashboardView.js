@@ -48,10 +48,8 @@ const DashboardView = ({ route }) => {
         const newItem = {
             name: newItemName,
             price: parseInt(newItemPrice, 10),
-            // price: newItemPrice,
         };
 
-        // axios.post(`http://192.168.1.125:5000/dashboards/budgetLists/${budgetListId}/budgetItems`, newItem)
         axios.post(`http://192.168.1.125:5000/budgetList/1/budgetItems`, newItem)
             .then(response => {
                 setBudgetLists(prevBudgetLists => 
