@@ -112,7 +112,7 @@ namespace tf_api.Endpoints
             db.BudgetItems.Add(budgetItem);
 
             await db.SaveChangesAsync();
-            return Results.Created();
+            return Results.Created($"/budgetLists/{budgetListId}/budgetItems/{budgetItem.Id}", budgetItem);
         }
     }
 }
