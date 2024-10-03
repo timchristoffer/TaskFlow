@@ -34,6 +34,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
     const [todolists, setTodolists] = useState([]);
     const [newTodolistName, setNewTodolistName] = useState('');
     const [budgetLists, setBudgetLists] = useState([]);
+    const [newBudgetListName, setNewBudgetListName] = useState('');
 
     useEffect(() => {
         const handleResize = () => {
@@ -79,7 +80,6 @@ const DashboardDetail = ({ isSidebarOpen }) => {
     useEffect(() => {
         if (dashboardId) {
             axios.get(`https://localhost:7287/todolists`, { params:  {dashboardId} })
-
                 .then(response => {
                     setTodolists(response.data);
                     response.data.forEach(todoList => {
@@ -94,7 +94,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
 
     useEffect(() => {
         if (dashboardId) {
-            axios.get(`https://localhost:7287/budgetLists`, { params: {dashboardId} })//remove big L
+            axios.get(`https://localhost:7287/budgetLists`, { params: {dashboardId} })
                 .then(response => {
                     setBudgetLists(response.data);
                     response.data.forEach(budgetList => {
@@ -120,7 +120,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
         axios.post(`https://localhost:7287/notepads`, { name, dashboardId })
             .then(response => {
                 setNotepads([...notepads, { ...response.data, notes: [] }]);
-                setNewNotepadName('');
+                setNewNotepadName(''); 
                 addWidget('notepad', response.data.id, response.data.name);
             })
             .catch(error => {
@@ -147,6 +147,24 @@ const DashboardDetail = ({ isSidebarOpen }) => {
             });
     };
 
+    const createBudgetList = (name) => {
+        if (!name.trim()) {
+            alert('Budget list name cannot be empty.');
+            return;
+        }
+
+        axios.post(`https://localhost:7287/budgetLists`, { name, dashboardId })
+            .then(response => {
+                setBudgetLists([...budgetLists, { ...response.data, items: [] }]);
+                setNewBudgetListName('');
+                addWidget('budgetlist', response.data.id, response.data.name);
+            })
+            .catch(error => {
+                console.error('Error creating budget list:', error);
+                alert('Error creating budget list. Please try again.');
+            });
+    };
+
     const removeNotepad = (notepadId) => {
         axios.delete(`https://localhost:7287/notepads/${notepadId}`)
             .then(() => {
@@ -164,6 +182,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                 alert('Error removing notepad. Please try again.');
             });
     };
+
     const removeTodoList = (todoListId) => {
         axios.delete(`https://localhost:7287/todolist/${todoListId}`)
             .then(() => {
@@ -223,6 +242,8 @@ const DashboardDetail = ({ isSidebarOpen }) => {
             createNotepad('New Notepad');
         } else if (widgetType === 'todolist') {
             createTodolist('New Todolist');
+        } else if (widgetType === 'budgetlist') {
+            createBudgetList('New Budget List');
         }
     };
 
@@ -235,6 +256,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                         <option value="">Add Widget</option>
                         <option value="notepad">Notepad</option>
                         <option value="todolist">Todo List</option>
+                        <option value="budgetlist">Budget List</option>
                     </select>
                 </div>
                 <ResponsiveGridLayout
