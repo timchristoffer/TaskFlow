@@ -201,6 +201,24 @@ const DashboardDetail = ({ isSidebarOpen }) => {
             });
     };
 
+    const removeBudgetList = (budgetListId) => {
+        axios.delete(`https://localhost:7287/budgetLists/${budgetListId}`)
+            .then(() => {
+                setBudgetLists(budgetLists.filter(budgetList => budgetList.id !== budgetListId));
+                setLayouts((prevLayouts) => {
+                    const newLayouts = { ...prevLayouts };
+                    Object.keys(newLayouts).forEach((key) => {
+                        newLayouts[key] = newLayouts[key].filter(item => item.widgetId !== budgetListId);
+                    });
+                    return newLayouts;
+                });
+            })
+            .catch(error => {
+                console.error('Error removing budget list:', error);
+                alert('Error removing budget list. Please try again.');
+            });
+    };
+
     const addWidget = (widgetType, widgetId = null, widgetName = '') => {
         if (!widgetType) return;
 
@@ -307,6 +325,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                                                 dashboardId={dashboardId}
                                                 id={item.widgetId}
                                                 name={item.widgetName}
+                                                removeBudgetList={removeBudgetList}
                                             />
                                         </Suspense>
                                     ) : (
