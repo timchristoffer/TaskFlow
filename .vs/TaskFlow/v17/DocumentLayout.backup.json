@@ -3,6 +3,7 @@
   "WorkspaceRootPath": "C:\\Users\\timda\\OneDrive\\Skrivbord\\X\\Skola\\Taskflow\\",
   "Documents": [
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|c:\\users\\timda\\onedrive\\skrivbord\\x\\skola\\taskflow\\tf-api\\models\\dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|solutionrelative:tf-api\\models\\dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -17,6 +18,26 @@
     {
       "AbsoluteMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|c:\\users\\timda\\onedrive\\skrivbord\\x\\skola\\taskflow\\tf-api\\dbcontexts\\taskflowdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|solutionrelative:tf-api\\dbcontexts\\taskflowdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
+      "AbsoluteMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|c:\\users\\timda\\desktop\\projekt\\taskflow\\tf-api\\endpoints\\dashboardendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|solutionrelative:tf-api\\endpoints\\dashboardendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|c:\\users\\timda\\desktop\\projekt\\taskflow\\tf-api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|solutionrelative:tf-api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|c:\\users\\timda\\desktop\\projekt\\taskflow\\tf-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|solutionrelative:tf-api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|c:\\users\\timda\\desktop\\projekt\\taskflow\\tf-api\\dbcontexts\\taskflowdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|solutionrelative:tf-api\\dbcontexts\\taskflowdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|c:\\users\\timda\\desktop\\projekt\\taskflow\\tf-api\\models\\dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F3EB985-A552-4C5A-B148-1294B1B344B5}|tf-api\\tf-api.csproj|solutionrelative:tf-api\\models\\dashboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> master
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +47,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
           "SelectedChildIndex": 4,
+=======
+          "SelectedChildIndex": 2,
+>>>>>>> master
           "Children": [
             {
               "$type": "Bookmark",
@@ -39,14 +64,34 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+<<<<<<< HEAD
+=======
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\timda\\Desktop\\Projekt\\TaskFlow\\tf-api\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "tf-api\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\timda\\Desktop\\Projekt\\TaskFlow\\tf-api\\Properties\\launchSettings.json",
+              "RelativeToolTip": "tf-api\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-09-24T09:56:47.815Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+>>>>>>> master
               "Title": "DashboardEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\timda\\OneDrive\\Skrivbord\\X\\Skola\\Taskflow\\tf-api\\Endpoints\\DashboardEndpoints.cs",
               "RelativeDocumentMoniker": "tf-api\\Endpoints\\DashboardEndpoints.cs",
               "ToolTip": "C:\\Users\\timda\\OneDrive\\Skrivbord\\X\\Skola\\Taskflow\\tf-api\\Endpoints\\DashboardEndpoints.cs",
               "RelativeToolTip": "tf-api\\Endpoints\\DashboardEndpoints.cs",
+<<<<<<< HEAD
               "ViewState": "AgIAABkAAAAAAAAAAAAQwBYAAAAAAAAAAAAAAA==",
+=======
+              "ViewState": "AgIAABgAAAAAAAAAAAAgwFUAAAAcAAAAAAAAAA==",
+>>>>>>> master
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T09:26:37.239Z"
+              "WhenOpened": "2024-09-24T09:26:37.239Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -59,6 +104,7 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-24T09:21:44.334Z"
+<<<<<<< HEAD
             },
             {
               "$type": "Document",
@@ -75,6 +121,23 @@
             },
             {
               "$type": "Document",
+=======
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Dashboard.cs",
+              "DocumentMoniker": "C:\\Users\\timda\\Desktop\\Projekt\\TaskFlow\\tf-api\\Models\\Dashboard.cs",
+              "RelativeDocumentMoniker": "tf-api\\Models\\Dashboard.cs",
+              "ToolTip": "C:\\Users\\timda\\Desktop\\Projekt\\TaskFlow\\tf-api\\Models\\Dashboard.cs",
+              "RelativeToolTip": "tf-api\\Models\\Dashboard.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T09:07:02.192Z"
+            },
+            {
+              "$type": "Document",
+>>>>>>> master
               "DocumentIndex": 3,
               "Title": "TaskFlowDBContext.cs",
               "DocumentMoniker": "C:\\Users\\timda\\OneDrive\\Skrivbord\\X\\Skola\\Taskflow\\tf-api\\DBContexts\\TaskFlowDBContext.cs",

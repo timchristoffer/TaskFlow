@@ -1,39 +1,102 @@
-.inputDiv,
-.productList {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.budget-widget {
+    background-color: var(--secondary-background);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    color: var(--text);
 }
 
-.textInput,
-.numberInput {
-    padding: 8px;
-    margin: 8px 0;
-    width: 200px;
-    border: 1px solid #ccc;
+.inputDiv {
+    display: flex;
+    margin-bottom: 16px;
+    flex-wrap: wrap; /* Allow wrapping for mobile */
+    justify-content: space-between; /* Align items properly */
+    gap: 8px; /* Add gap for spacing between items */
+}
+
+.textInput, .numberInput {
+    padding: 6px; /* Smaller padding */
     border-radius: 4px;
-    box-sizing: border-box;
+    border: 1px solid var(--secondary-text);
+    flex: 1; /* Flex property for responsiveness */
+    min-width: 80px; /* Minimum width for inputs */
 }
 
 .addProductButton {
-    padding: 8px 16px;
     background-color: var(--primary);
-    color: white;
+    color: var(--text);
     border: none;
+    padding: 6px 10px; /* Smaller padding for the button */
     border-radius: 4px;
     cursor: pointer;
+    font-size: 18px; /* Font size for the '+' */
 }
 
-.addProductButton:hover{
-    background-color: #0f5553;
+.addProductButton:hover {
+    background-color: var(--accent);
 }
 
-.productList li {
-    padding: 8px 0;
-    border-bottom: 1px solid #ccc;
+.productList {
+    margin-top: 16px;
 }
 
-.productList ul {
-    list-style-type: none;
+.budget-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--secondary-text);
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: var(--background);
+}
+
+.remove-item-button {
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
     padding: 0;
 }
+
+.remove-item-button:hover {
+    text-decoration: underline;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    .inputDiv {
+        flex-direction: column; /* Stack inputs vertically on mobile */
+        gap: 8px; /* Space between inputs on mobile */
+    }
+
+    .textInput, .numberInput {
+        width: 100%; /* Full width for inputs on mobile */
+        margin-right: 0; /* Remove right margin on mobile */
+        margin-bottom: 0; /* Remove bottom margin for inputs on mobile */
+    }
+
+    .addProductButton {
+        width: 100%; /* Full width for button on mobile */
+    }
+}
+
+.budget-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+  }
+  
+  .remove-budget-button {
+    background-color: #dc3545;
+    color: var(--text);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .remove-budget-button:hover {
+    background-color: #c82333;
+  }
+  

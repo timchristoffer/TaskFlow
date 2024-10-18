@@ -5,7 +5,7 @@ import './BudgetList.css';
 const BudgetList = (props) => {
     const [productName, setProductName] = useState('');
     const [productPrice, setProductPrice] = useState('');
-    const [budgetList, setBudgetList] = useState({});
+    const [budgetList, setBudgetList] = useState({ items: [] }); // Initialize with empty items
 
     useEffect(() => {
         const getData = async () => {
@@ -14,7 +14,7 @@ const BudgetList = (props) => {
                 console.log("Response data: ", response.data);
                 setBudgetList(response.data);
             } catch (error) {
-                console.error('Error fetching budget list:',error);
+                console.error('Error fetching budget list:', error);
                 alert("Failed to fetch budgetList");
             }
         };
@@ -22,10 +22,7 @@ const BudgetList = (props) => {
         getData();
     }, [props.id]);
 
-    const addProduct = () => {
-        console.log("Product Name:", productName);
-        console.log("Product Price:", productPrice);
-
+    const addProduct = async () => {
         if (!productName.trim()) {
             alert('Product name cannot be empty');
             return;
@@ -35,14 +32,14 @@ const BudgetList = (props) => {
             alert('Product price must be a valid number');
             return;
         }
-    
-        const price = parseInt(productPrice);
-    
-        axios.post(`https://localhost:7287/budgetList/${props.id}/budgetItems`, {
-            name: productName,
-            price: price
-        })
-        .then(response => {
+
+        const price = parseFloat(productPrice); // Use parseFloat for decimal support
+
+        try {
+            const response = await axios.post(`https://localhost:7287/budgetList/${props.id}/budgetItems`, {
+                name: productName,
+                price: price
+            });
             console.log('Created budget item', response.data);
             setBudgetList(prevBudgetList => ({
                 ...prevBudgetList,
@@ -50,51 +47,68 @@ const BudgetList = (props) => {
             }));
             setProductName('');
             setProductPrice('');
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error adding budget item:', error);
             alert('Error creating budget item');
-        });
+        }
     };
 
-    const totalSum = budgetList.items 
-        ? budgetList.items.reduce((sum, item) => sum + parseInt(item.price), 0) : 0;
+    const removeProduct = async (itemId) => {
+        try {
+            await axios.delete(`https://localhost:7287/budgetList/${props.id}/budgetItems/${itemId}`);
+            setBudgetList(prevBudgetList => ({
+                ...prevBudgetList,
+                items: prevBudgetList.items.filter(item => item.id !== itemId)
+            }));
+        } catch (error) {
+            console.error('Error deleting budget item:', error);
+            alert('Error deleting budget item');
+        }
+    };
 
-    const budgetItems = budgetList.items && budgetList.items.length > 0 ? (
+    const totalSum = budgetList.items.reduce((sum, item) => sum + parseFloat(item.price), 0); // Use parseFloat for decimal support
+
+    const budgetItems = budgetList.items.length > 0 ? (
         budgetList.items.map((item) => (
-            <li key={item.id}>
-                {item.name} - {item.price}kr
-            </li>
+            <div key={item.id} className="budget-item">
+                <span>{item.name} - {item.price} kr</span>
+                <button className="remove-item-button" onClick={() => removeProduct(item.id)}>Remove</button>
+            </div>
         ))
     ) : (
         <p>Empty</p>
     );
 
+    const handleRemoveBudgetList = () => {
+        props.removeBudgetList(props.id);
+    };
+
     return (
-        <div>
+        <div className="budget-widget">
             <div className='inputDiv'>
                 <input
-                    className="textInput"
+                    className="textInput small-input"
                     type="text"
-                    placeholder="Product Name"
+                    placeholder="Produkt"
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
                 />
                 <input
-                    className="numberInput"
+                    className="numberInput small-input"
                     type="number"
-                    placeholder="Price"
+                    placeholder="Pris"
                     value={productPrice}
                     onChange={(e) => setProductPrice(e.target.value)}
                 />
-                <button className='addProductButton' onClick={addProduct}>Add Product</button>
+                <button className='addProductButton' onClick={addProduct}>+</button>
             </div>
             <div className='productList'>
                 <h4>Product List:</h4>
-                <ul>
-                    {budgetItems}
-                </ul>
-                <h4>Total: {totalSum}kr</h4>
+                {budgetItems}
+                <h4>Total: {totalSum} kr</h4>
+            </div>
+            <div className="budget-footer">
+                <button className="remove-budget-button" onClick={handleRemoveBudgetList}>Remove Budget List</button>
             </div>
         </div>
     );

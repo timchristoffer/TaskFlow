@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("tf-api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+be67acc9757f45f95ce447f386f6f564c687673b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b0180868c6e15cf5566d81413dfa232c389bd44a")]
 [assembly: System.Reflection.AssemblyProductAttribute("tf-api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("tf-api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
