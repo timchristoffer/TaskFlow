@@ -1,10 +1,15 @@
-/* Dashboard.css */
+body::-webkit-scrollbar {
+    display: none;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     background: var(--background);
     margin: 0;
     padding: 0;
     overflow-x: hidden; /* Förhindra horisontell scrollning */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .dashboard-page {
@@ -95,6 +100,16 @@ body {
     padding: 10px;
     color: rgba(255, 255, 255, 0.9);
     background: var(--secondary-background);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Tillåt vertikal scrollning */
+    overflow-x: hidden; /* Förhindra horisontell scrollning */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.grid-item__content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
 }
 
 .grid-item__content .panel {

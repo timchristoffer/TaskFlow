@@ -1,0 +1,65 @@
+.footer {
+    width: 100%;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    flex-wrap: wrap;
+  }
+  
+  .footer-contact, .footer-social, .footer-copyright {
+    flex: 1;
+    text-align: center;
+    margin: 10px;.footer {
+        width: 100%;
+        background-color: var(--primary);
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 10;
+        flex-wrap: wrap;
+        transform: translateY(100%); /* Dölj footern initialt */
+        transition: transform 0.3s ease-in-out;
+      }
+      
+      .footer.visible {
+        transform: translateY(0); /* Visa footern när klassen 'visible' läggs till */
+      }
+      
+      .footer-contact, .footer-social, .footer-copyright {
+        flex: 1;
+        text-align: center;
+        margin: 10px;
+      }
+      
+      .footer-social a {
+        margin: 0 10px;
+        color: white;
+        text-decoration: none;
+      }
+      
+      .footer-social a:hover {
+        text-decoration: underline;
+      }
+  }
+  
+  .footer-social a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .footer-social a:hover {
+    text-decoration: underline;
+  }

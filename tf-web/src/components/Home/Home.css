@@ -1,0 +1,130 @@
+.home-container {
+  padding: 20px;
+  color: var(--text);
+}
+
+.home-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text);
+  margin-bottom: 20px;
+  padding: 20px;
+  background: var(--primary);
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.home-header .title {
+  flex: 1;
+  text-align: left;
+  font-size: 1.5em;
+}
+
+.home-header .buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.home-header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--accent);
+  color: var(--text);
+  border: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s;
+  height: auto;
+}
+
+.home-header button:hover {
+  background: var(--accent-dark);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-description {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.home-description h2 {
+  color: var(--text);
+}
+
+.home-description p {
+  color: var(--text);
+}
+
+.home-image-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.image-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--primary);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-item.left .image-info {
+  order: 2;
+}
+
+.image-item.right .image-info {
+  order: 1;
+}
+
+.image-item img {
+  width: 45%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.image-info {
+  width: 45%;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.parallax {
+  will-change: transform;
+}
+
+.home-footer {
+  margin-top: 20px;
+  text-align: center;
+  color: var(--text);
+  background: var(--primary);
+  padding: 20px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

@@ -5,6 +5,10 @@
   margin-bottom: 16px;
   color: var(--text);
   user-select: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden; /* Förhindra horisontell scrollning */
 }
 
 .notepad-name {
@@ -63,6 +67,23 @@
 .notepad-notes button:hover {
   background-color: var(--accent);
   color: var(--secondary-text);
+}
+
+.notes-title {
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.notepad-notes-list {
+  flex: 1;
+  overflow-y: auto; /* Tillåt vertikal scrollning */
+  overflow-x: hidden; /* Förhindra horisontell scrollning */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.notepad-notes-list::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
 
 .notepad-notes-list .note {

@@ -263,7 +263,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                     className="layout"
                     layouts={layouts}
                     cols={cols}
-                    rowHeight={30}
+                    rowHeight={200}
                     margin={[20, 20]}
                     draggableHandle=".grid-item__title"
                     isResizable={true}
@@ -283,7 +283,7 @@ const DashboardDetail = ({ isSidebarOpen }) => {
                             }
                         }).map((item) => (
                             <div key={item.i} className="grid-item">
-                                <div className="grid-item__title">{item.type || `Widget ${item.i.replace('widget', '')}`}</div>
+                                <div className="grid-item__title">{(item.type || `Widget ${item.i.replace('widget', '')}`).toUpperCase()}</div>
                                 <div className="grid-item__content">
                                     {item.type === 'todolist' ? (
                                         <Suspense fallback={<div>Loading...</div>}>

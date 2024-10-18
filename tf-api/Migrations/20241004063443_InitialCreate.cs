@@ -29,7 +29,8 @@ namespace tf_api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DashboardId = table.Column<int>(type: "int", nullable: true)
+                    DashboardId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,7 +39,8 @@ namespace tf_api.Migrations
                         name: "FK_BudgetLists_Dashboards_DashboardId",
                         column: x => x.DashboardId,
                         principalTable: "Dashboards",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,8 +69,8 @@ namespace tf_api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DashboardId = table.Column<int>(type: "int", nullable: true)
+                    DashboardId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,7 +79,8 @@ namespace tf_api.Migrations
                         name: "FK_TodoLists_Dashboards_DashboardId",
                         column: x => x.DashboardId,
                         principalTable: "Dashboards",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -88,7 +91,7 @@ namespace tf_api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<int>(type: "int", nullable: false),
-                    BudgetListId = table.Column<int>(type: "int", nullable: true)
+                    BudgetListId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,7 +100,8 @@ namespace tf_api.Migrations
                         name: "FK_BudgetItems_BudgetLists_BudgetListId",
                         column: x => x.BudgetListId,
                         principalTable: "BudgetLists",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -126,9 +130,9 @@ namespace tf_api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDone = table.Column<bool>(type: "bit", nullable: false),
-                    TodoListId = table.Column<int>(type: "int", nullable: true)
+                    TodoListId = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsDone = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,7 +141,8 @@ namespace tf_api.Migrations
                         name: "FK_Todos_TodoLists_TodoListId",
                         column: x => x.TodoListId,
                         principalTable: "TodoLists",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

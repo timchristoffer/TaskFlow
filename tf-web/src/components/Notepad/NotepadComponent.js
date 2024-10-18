@@ -149,8 +149,11 @@ const NotepadComponent = ({ notepadId, removeNotepad }) => {
         />
         <button onClick={createNote}>Add Note</button>
       </div>
+      <div className="notepad-notes-title">
+      <h3>Notes</h3>
+      </div>
       <div className="notepad-notes-list">
-        <h3>Notes</h3>
+        
         {notepad && notepad.notes && notepad.notes.map(note => (
           <div key={note.id} className="note">
             {editingNoteId === note.id ? (
