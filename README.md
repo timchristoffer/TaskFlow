@@ -1,10 +1,10 @@
 # TaskFlow
 
-Ett projektarbete utvecklat i React Native för att skapa en mobil uppgiftshanteringsapplikation.
+Ett projektarbete utvecklat i React och React Native för att skapa en mobil uppgiftshanteringsapplikation.
 
 ## Om projektet
 
-TaskFlow är en mobilapplikation för uppgiftshantering som hjälper användare att organisera och följa upp sina dagliga aktiviteter. Projektet kombinerar React Native för frontend med en enkel och intuitiv användarupplevelse.
+TaskFlow är en web/mobil-applikation för uppgiftshantering som hjälper användare att organisera och följa upp sina dagliga aktiviteter. Projektet kombinerar React Native för frontend med en enkel och intuitiv användarupplevelse.
 
 ## Funktioner
 
@@ -15,9 +15,9 @@ TaskFlow är en mobilapplikation för uppgiftshantering som hjälper användare 
 
 ## Teknisk stack
 
-- **Frontend**: React Native
+- **Frontend**: React.js, React Native
 - **Navigation**: React Navigation
-- **Styling**: Native styling med StyleSheet
+- **Styling**: CSS, Native styling med StyleSheet
 - **Tillståndshantering**: React Hooks (useState, useEffect)
 
 ## Installation och körning
