@@ -56,25 +56,6 @@ TaskFlow är en web/mobil-applikation för uppgiftshantering som hjälper använ
    - Tryck `a` för att öppna i Android Emulator
    - Skanna QR-koden med Expo Go-appen på din mobila enhet
 
-## Projektstruktur
-
-```
-TaskFlow/
-├── assets/                # Bilder och andra statiska tillgångar
-├── components/            # Återanvändbara UI-komponenter
-│   ├── AddTask.js         # Komponent för att lägga till uppgifter
-│   ├── Header.js          # Header-komponent för applikationen
-│   ├── Task.js            # Task-komponentrepresentation
-│   └── TaskList.js        # Lista av uppgifter
-├── screens/               # Applikationens huvudskärmar
-│   ├── HomeScreen.js      # Huvudskärm med uppgiftslista
-│   └── TaskScreen.js      # Skärm för uppgiftsdetaljer
-├── App.js                 # Applikationens huvudkomponent
-├── app.json               # Expo-konfiguration
-├── babel.config.js        # Babel-konfiguration
-└── package.json           # Projektberoenden
-```
-
 ## Funktionalitet under utveckling
 
 TaskFlow är ett pågående projekt och följande funktioner är under utveckling:
